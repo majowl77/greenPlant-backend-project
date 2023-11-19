@@ -1,9 +1,12 @@
 import mongoose from 'mongoose'
 
-
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
+  },
+  product: {
+    name: String,
     required: true,
   },
   // relation between order and user should be many orders to one user
