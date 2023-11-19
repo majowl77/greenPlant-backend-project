@@ -5,10 +5,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  product: {
-    name: String,
-    required: true,
-  },
   // relation between order and user should be many orders to one user
   // here's 1to1 just for the demo
   order: {
