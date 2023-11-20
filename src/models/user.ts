@@ -1,16 +1,27 @@
 import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 const userSchema = new mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
     required: true,
   },
-  // relation between order and user should be many orders to one user
-  // here's 1to1 just for the demo
-  order: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Order',
+  lastName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
   },
 })
 
-export default mongoose.model('Client', userSchema)
+export default mongoose.model('User', userSchema)

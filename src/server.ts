@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 
+import { dev } from './config/index'
 import usersRouter from './routers/users'
 import productsRouter from './routers/products'
 import ordersRouter from './routers/orders'
@@ -10,8 +11,8 @@ import myLogger from './middlewares/logger'
 
 config()
 const app = express()
-const PORT = 5050
-const URL = process.env.ATLAS_URL as string
+const PORT = dev.app.port || 8080
+const URL = dev.app.db as string
 
 app.use(myLogger)
 app.use(express.urlencoded({ extended: true }))
@@ -22,6 +23,7 @@ app.use('/api/orders', ordersRouter)
 app.use('/api/products', productsRouter)
 
 app.use(apiErrorHandler)
+
 
 mongoose
   .connect(URL)
