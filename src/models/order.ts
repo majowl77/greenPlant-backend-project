@@ -1,9 +1,7 @@
 import mongoose, { Document } from 'mongoose'
+import { OrderDocument } from '../types.js'
 
-export type OrderDocument = Document & {
-  name: string
-  products: mongoose.Schema.Types.ObjectId[]
-}
+// Orders: id, productId, userId, purchasedAt
 
 const orderSchema = new mongoose.Schema({
   name: {
@@ -13,6 +11,14 @@ const orderSchema = new mongoose.Schema({
   products: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Product',
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  purchasedAt: {
+    type: String,
+    required: true,
   },
 })
 
