@@ -40,9 +40,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     user,
   })
 }
-export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-  
-}
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {}
 
 export const deleteUser = (req: Request, res: Response) => {
   res.status(204)
