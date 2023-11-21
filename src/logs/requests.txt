@@ -77,3 +77,15 @@ Method: GET, Path: /api/users/, Date: 11/22/2023, Time: 12:02:13 AM
 Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 12:02:50 AM
 Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 12:03:55 AM
 Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 12:04:00 AM
+Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 1:23:06 AM
+Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 1:23:25 AM
+Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 1:23:36 AM
+Method: POST, Path: /api/users/login, Date: 11/22/2023, Time: 1:23:51 AM
+Method: POST, Path: /api/users/login, Date: 11/22/2023, Time: 1:23:54 AM
+Method: DELETE, Path: /api/users/655d1b409c9a6d185220833f, Date: 11/22/2023, Time: 1:29:15 AM
+Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 1:29:33 AM
+Method: POST, Path: /api/users/register, Date: 11/22/2023, Time: 1:29:57 AM
+Method: POST, Path: /api/users/login, Date: 11/22/2023, Time: 1:30:25 AM
+Method: GET, Path: /api/users/, Date: 11/22/2023, Time: 1:53:40 AM
+Method: PUT, Path: /api/users/655cb90ffb79389013f3463c, Date: 11/22/2023, Time: 1:53:55 AM
+Method: PUT, Path: /api/users/655d1a79475d7df362cbcc1d, Date: 11/22/2023, Time: 1:56:17 AM

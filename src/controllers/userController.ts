@@ -30,7 +30,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
   if (existingUser) {
     return next(ApiError.conflict('Email is already registered'))
   }
-  const hashedPassword = await bcrypt.hash(password, 10) // You can adjust the cost factor (10 in this case)
+  const hashedPassword = await bcrypt.hash(password, 10)
 
   // create a new instant form the schema and provied the properites to it
   const user = new User({
@@ -68,7 +68,10 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
   // At this point, the user is authenticated
   res.status(200).json({
-    _id: user._id,
+    _id: existingUser._id,
+    email: existingUser.email,
+    firstName: existingUser.firstName,
+    lastName: existingUser.lastName,
   })
 }
 
@@ -80,8 +83,33 @@ export const deleteUser = async (req: Request, res: Response) => {
   res.status(204).send()
 }
 
-export const updateUser = (req: Request, res: Response) => {
-  const { first_name } = req.body
+export const updateUser = async (req: Request, res: Response) => {
+  const { userId } = req.params
+  const { firstName, lastName, email, password } = req.body
 
-  res.json()
+  // Validate input
+  if (!userId) {
+    return ApiError.badRequest('Invalid user ID')
+  }
+  // Find the user by ID
+  const user = await User.findById(userId)
+
+  // Check if the user exists
+  if (!user) {
+    throw ApiError.notFound('User not found')
+  }
+
+  // Update user information
+  if (firstName) user.firstName = firstName
+  if (lastName) user.lastName = lastName
+  if (email) user.email = email
+  const hashedPassword = await bcrypt.hash(password, 10)
+  if (password) user.password = hashedPassword
+
+  // Save the updated user to the database
+  await user.save()
+  res.status(200).json({
+    msg: 'User updated successfully',
+    user,
+  })
 }
