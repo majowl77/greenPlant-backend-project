@@ -2,7 +2,6 @@ import express from 'express'
 import {
   registerNewUser,
   deleteUser,
-  getUserById,
   getUsers,
   updateUser,
   loginUser,
@@ -10,9 +9,8 @@ import {
 
 const router = express.Router()
 router.get('/', getUsers)
-router.get('/:userId', getUserById)
-router.post('/', registerNewUser)
-router.post('/', loginUser)
+router.post('/register', registerNewUser)
+router.post('/login', loginUser)
 router.delete('/:userId', deleteUser)
 router.put('/:userId', updateUser)
 

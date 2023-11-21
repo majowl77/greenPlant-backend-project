@@ -1,5 +1,12 @@
-import mongoose from 'mongoose'
-import { Schema, model } from 'mongoose'
+import mongoose, { Document } from 'mongoose'
+
+export type UserDocument = Document & {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  role: string
+}
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -13,6 +20,8 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    // this is a unique index
+    unique: true,
   },
   password: {
     type: String,
@@ -20,8 +29,9 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    required: true,
+    enum: ['admin', 'user', 'guest'], // Literal values using enum
+    default: 'user', // Default value for the 'role' is a user
   },
 })
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model<UserDocument>('User', userSchema)
