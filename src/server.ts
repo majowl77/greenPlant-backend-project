@@ -24,7 +24,6 @@ app.use('/api/products', productsRouter)
 
 app.use(apiErrorHandler)
 
-
 mongoose
   .connect(URL)
   .then(() => {
