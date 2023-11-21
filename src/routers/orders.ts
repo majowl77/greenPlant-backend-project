@@ -1,10 +1,22 @@
 import express from 'express'
 const router = express.Router()
 
-import { addNewOrder, getOrders } from '../controllers/orderController'
+import {
+  addNewOrder,
+  deleteOrder,
+  getOrderById,
+  getOrders,
+  updateOrder,
+} from '../controllers/orderController'
 
 router.get('/', getOrders)
 
+router.get('/:orderId', getOrderById)
+
 router.post('/', addNewOrder)
+
+router.put('/:orderId', updateOrder)
+
+router.delete('/:orderId', deleteOrder)
 
 export default router
