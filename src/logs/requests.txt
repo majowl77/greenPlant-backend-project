@@ -89,3 +89,5 @@ Method: POST, Path: /api/users/login, Date: 11/22/2023, Time: 1:30:25 AM
 Method: GET, Path: /api/users/, Date: 11/22/2023, Time: 1:53:40 AM
 Method: PUT, Path: /api/users/655cb90ffb79389013f3463c, Date: 11/22/2023, Time: 1:53:55 AM
 Method: PUT, Path: /api/users/655d1a79475d7df362cbcc1d, Date: 11/22/2023, Time: 1:56:17 AM
+Method: GET, Path: /api/categories/, Date: 11/22/2023, Time: 1:02:12 PM
+Method: GET, Path: /api/categories/, Date: 11/22/2023, Time: 1:14:46 PM
