@@ -87,29 +87,35 @@ export const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params
   const { firstName, lastName, email, password } = req.body
 
-  // Validate input
+  // Validate the user
   if (!userId) {
     return ApiError.badRequest('Invalid user ID')
   }
-  // Find the user by ID
-  const user = await User.findById(userId)
 
+  // Hash the password if provided
+  const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined
+
+  // Find and update the user in one step
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: {
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      },
+    },
+    // Save the updated user to the database
+    { new: true }
+  )
   // Check if the user exists
-  if (!user) {
+  if (!updatedUser) {
     throw ApiError.notFound('User not found')
   }
 
-  // Update user information
-  if (firstName) user.firstName = firstName
-  if (lastName) user.lastName = lastName
-  if (email) user.email = email
-  const hashedPassword = await bcrypt.hash(password, 10)
-  if (password) user.password = hashedPassword
-
-  // Save the updated user to the database
-  await user.save()
   res.status(200).json({
     msg: 'User updated successfully',
-    user,
+    user: updatedUser,
   })
 }
