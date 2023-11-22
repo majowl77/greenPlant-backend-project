@@ -83,3 +83,12 @@ Method: PUT, Path: /api/products/655d199db05044c73afe27d4, Date: ٧‏/٥‏/١�
 Method: DELETE, Path: /api/products/655d199db05044c73afe27d4, Date: ٧‏/٥‏/١٤٤٥ هـ, Time: ١١:٥٩:٢٧ م
 Method: GET, Path: /api/products/655d199db05044c73afe27d4, Date: ٧‏/٥‏/١٤٤٥ هـ, Time: ١١:٥٩:٣٦ م
 Method: GET, Path: /api/products/, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١٢:٠٠:٢٨ ص
+Method: GET, Path: /products, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٣٧:٤٣ ص
+Method: GET, Path: /products, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٣٨:١٦ ص
+Method: GET, Path: /api/products/, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٣٨:٣٥ ص
+Method: GET, Path: /api/products//category/%7B1%7D, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٣٨:٥٧ ص
+Method: GET, Path: /api/products/category/%7B1%7D, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٣٩:١٢ ص
+Method: GET, Path: /api/products/category/%7B1%7D, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٣٩:٢٨ ص
+Method: GET, Path: /api/products/variant/%7B1000%7D, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٤١:٤٣ ص
+Method: GET, Path: /api/products/variant/%7B'1000'%7D, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٤٢:٠٢ ص
+Method: GET, Path: /api/products/variant/%7B'1000'%7D, Date: ٨‏/٥‏/١٤٤٥ هـ, Time: ١١:٤٢:٤١ ص
