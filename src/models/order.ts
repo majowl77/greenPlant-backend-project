@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   purchasedAt: {
-    type: String,
+    type: Date,
     required: true,
   },
 })
