@@ -14,8 +14,6 @@ export const getAllcategories =async (  req:Request ,
          } catch(error){
             next(error);
          }
-            
-       
 
     
 }}
