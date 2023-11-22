@@ -12,7 +12,7 @@ import { dev } from './config/index'
 
 config()
 const app = express()
-const PORT = dev.app.port
+const PORT = dev.app.port ||8080
 const URL = dev.app.db as string
 
 app.use(myLogger)
@@ -33,7 +33,12 @@ mongoose
   .catch((err) => {
     console.log('MongoDB connection error, ', err)
   })
-
+app.use('/hello', (req,res)=>{
+  res.json({
+    msg:"hello"
+  })
+  res.end()
+})
 app.listen(PORT, () => {
   console.log('Server running http://localhost:' + PORT)
 })
