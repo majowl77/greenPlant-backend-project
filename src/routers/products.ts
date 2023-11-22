@@ -4,22 +4,16 @@ const router = express.Router()
 import Product from '../models/product'
 import Order from '../models/order'
 import ApiError from '../errors/ApiError'
+import {
+  createNewProduct,
+  deleteProductById,
+  getAllProducts,
+  getProductById,
+  pagination,
+  updateProductById,
+} from '../controllers/productController'
 
-router.get('/', async ( req, res) => {
-  
-    const products = await Product.find()
-    console.log('products:', products)
-    res.json(products)
-})
-
-router.get('/:productId',async(req,res)=>{
-  const productId = req.params.productId
-
-  const product= await Product.findById({
-    _id: productId,
-  })
-  res.status(200).json(product)
-})
+router.get('/', getAllProducts, pagination)
 
 router.post('/', async (req, res, next) => {
   const { name, description, quantity, image, price, category, variants, sizes  } = req.body
