@@ -1,12 +1,5 @@
 import mongoose, { Document } from 'mongoose'
-
-export type UserDocument = Document & {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  role: string
-}
+import { UserDocument } from '../types'
 
 export enum UserRole {
   Admin = 'admin',
