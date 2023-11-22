@@ -28,12 +28,9 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Category',
+   
   },
   variants: {
     type: [
