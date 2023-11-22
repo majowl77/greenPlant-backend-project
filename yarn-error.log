@@ -1,5 +1,5 @@
 Arguments: 
-  /opt/homebrew/Cellar/node/21.2.0/bin/node /usr/local/bin/yarn add dotenv
+  /opt/homebrew/Cellar/node/21.2.0/bin/node /usr/local/bin/yarn install bcrypt
 
 PATH: 
   /opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.10/bin

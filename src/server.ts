@@ -2,17 +2,17 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 
-import { dev } from './config/index'
 import usersRouter from './routers/users'
 import productsRouter from './routers/products'
 import ordersRouter from './routers/orders'
 import categoryRouter from './routers/categories'
 import apiErrorHandler from './middlewares/errorHandler'
 import myLogger from './middlewares/logger'
+import { dev } from './config/index'
 
 config()
 const app = express()
-const PORT = dev.app.port || 8080
+const PORT = dev.app.port
 const URL = dev.app.db as string
 
 app.use(myLogger)
@@ -24,7 +24,6 @@ app.use('/api/products', productsRouter)
 app.use('/api/categories',categoryRouter )
 
 app.use(apiErrorHandler)
-
 
 mongoose
   .connect(URL)
