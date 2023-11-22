@@ -1,6 +1,8 @@
 # Library/E-commerce Application API
 
-This repository contains a Node.js/Express.js application with RESTful API endpoints for a library or e-commerce application. The API allows you to interact with items in the library or products in the store.
+This repository contains a 
+
+endpoints for a library or e-commerce application. The API allows you to interact with items in the library or products in the store.
 
 `This is a teamwork assignment where you will work as a team within your group`
 
