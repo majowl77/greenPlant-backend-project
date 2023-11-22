@@ -9,6 +9,15 @@ class ApiError {
   static internal(msg: string) {
     return new ApiError(500, msg)
   }
+  static conflict(message: string) {
+    return new ApiError(409, message)
+  }
+  static unauthorized(message: string) {
+    return new ApiError(401, message)
+  }
+  static notFound(message: string) {
+    return new ApiError(404, message)
+  }
 }
 
 export default ApiError
