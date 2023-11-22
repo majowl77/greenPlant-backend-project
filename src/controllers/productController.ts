@@ -12,13 +12,13 @@ export const getAllProducts = async (req: Request, res: Response, next: NextFunc
     .populate('category')
 
   const totalProducts = await Product.countDocuments()
-  const totalPage = Math.ceil(totalProducts / perPage)
+  const totalPages = Math.ceil(totalProducts / perPage)
 
   res.json({
     pageNumber,
     perPage,
     totalProducts,
-    totalPage,
+    totalPages,
     products,
   })
 }
