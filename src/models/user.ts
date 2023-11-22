@@ -1,16 +1,39 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
+import { UserDocument } from '../types'
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+export enum UserRole {
+  Admin = 'admin',
+  User = 'user',
+}
+const userSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      // this is a unique index
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: UserRole, // Literal values using enum
+      default: UserRole.User, // Default value for the 'role' is a user
+    },
   },
-  // relation between order and user should be many orders to one user
-  // here's 1to1 just for the demo
-  order: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Order',
-  },
-})
+  {
+    timestamps: true, // Automatically add createdAt and updatedAt timestamps
+  }
+)
 
-export default mongoose.model('Client', userSchema)
+export default mongoose.model<UserDocument>('User', userSchema)
