@@ -3,10 +3,24 @@ import Product from '../models/product'
 import { NextFunction, Request, Response } from 'express'
 
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
+  const pageNumber: number = Number(req.query.pageNumber) || 1
+  const perPage: number = Number(req.query.perPage) || 2
+
   const products = await Product.find()
-  console.log('products:', products)
-  res.json({ products })
-  next()
+    .skip((pageNumber - 1) * perPage)
+    .limit(perPage)
+    .populate('category')
+
+  const totalProducts = await Product.countDocuments()
+  const totalPage = Math.ceil(totalProducts / perPage)
+
+  res.json({
+    pageNumber,
+    perPage,
+    totalProducts,
+    totalPage,
+    products,
+  })
 }
 
 export const getProductById = async (req: Request, res: Response) => {
@@ -82,17 +96,4 @@ export const updateProductById = async (req: Request, res: Response) => {
   })
 }
 
-export const pagination = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { pageNumber } = req.query
-
-    req.query
-    console.log(pageNumber)
-    res.json(req.query)
-  } catch (error) {
-    res.status(500).json({
-      status: true,
-      message: ' internal server error ',
-    })
-  }
-}
+export const pagination = async (req: Request, res: Response, next: NextFunction) => {}
