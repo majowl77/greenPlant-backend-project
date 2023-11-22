@@ -1,8 +1,9 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
-export const dev = {
-  app: {
-    port: process.env.SERVER_PORT,
-    db: process.env.ATLAS_URL,
-  },
+export const dev={
+    app:{port:Number(process.env.PORT)|| 3003},
+    db:{
+        url:
+        process.env.MONGODB_URL||'mongodb:localhost:3003/backend_project'
+    },
 }

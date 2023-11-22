@@ -11,13 +11,18 @@ import myLogger from './middlewares/logger'
 
 config()
 const app = express()
-const PORT = dev.app.port || 8080
-const URL = dev.app.db as string
+const PORT = dev.app.port || 3003
+const URL = process.env.MONGODB_URL as string
 
 app.use(myLogger)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+app.use('/api/hello', (req,res)=>{
+  res.json ({
+    msg:"hello postman!"
+  })
+})
 app.use('/api/users', usersRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/products', productsRouter)
@@ -33,7 +38,12 @@ mongoose
   .catch((err) => {
     console.log('MongoDB connection error, ', err)
   })
-
+app.use('/hello', (req,res)=>{
+  res.json({
+    msg:"hello"
+  })
+  res.end()
+})
 app.listen(PORT, () => {
   console.log('Server running http://localhost:' + PORT)
 })
