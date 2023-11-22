@@ -8,30 +8,39 @@ export type UserDocument = Document & {
   role: string
 }
 
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
+export enum UserRole {
+  Admin = 'admin',
+  User = 'user',
+}
+const userSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      // this is a unique index
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: UserRole, // Literal values using enum
+      default: UserRole.User, // Default value for the 'role' is a user
+    },
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    // this is a unique index
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['admin', 'user', 'guest'], // Literal values using enum
-    default: 'user', // Default value for the 'role' is a user
-  },
-})
+  {
+    timestamps: true, // Automatically add createdAt and updatedAt timestamps
+  }
+)
 
 export default mongoose.model<UserDocument>('User', userSchema)
