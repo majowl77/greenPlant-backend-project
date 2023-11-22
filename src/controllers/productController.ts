@@ -2,25 +2,35 @@ import ApiError from '../errors/ApiError'
 import Product from '../models/product'
 import { NextFunction, Request, Response } from 'express'
 
+export type SortOrder = 1 | -1
+
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   const pageNumber: number = Number(req.query.pageNumber) || 1
   const perPage: number = Number(req.query.perPage) || 2
+  const sortField: string = (req.query.sortField as string) || 'price' // Explicitly assert type, we can sort by name or price or other
+  const sortOrder: SortOrder = req.query.sortOrder === 'desc' ? -1 : 1
+  const sortOptions: { [key: string]: SortOrder } = { [sortField]: sortOrder }
 
-  const products = await Product.find()
-    .skip((pageNumber - 1) * perPage)
-    .limit(perPage)
-    .populate('category')
+  try {
+    const products = await Product.find()
+      .sort(sortOptions)
+      .skip((pageNumber - 1) * perPage)
+      .limit(perPage)
+      .populate('category')
 
-  const totalProducts = await Product.countDocuments()
-  const totalPages = Math.ceil(totalProducts / perPage)
+    const totalProducts = await Product.countDocuments()
+    const totalPages = Math.ceil(totalProducts / perPage)
 
-  res.json({
-    pageNumber,
-    perPage,
-    totalProducts,
-    totalPages,
-    products,
-  })
+    res.json({
+      pageNumber,
+      perPage,
+      totalProducts,
+      totalPages,
+      products,
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
 }
 
 export const getProductById = async (req: Request, res: Response) => {
