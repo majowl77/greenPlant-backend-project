@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 
 export type ProductDocument = Document & {
   name: string
- 
 }
 
 const productSchema = new mongoose.Schema({
@@ -17,7 +16,7 @@ const productSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    default:1
+    default: 1,
   },
 
   image: {
@@ -29,25 +28,28 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: [{
-      type:String,
-      required:true,
-        }],
-   
+    type: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
   },
   variants: {
-    type: [{
-      type:String,
-    }],
-    
+    type: [
+      {
+        type: String,
+      },
+    ],
   },
   sizes: {
-    type: [{
-      type:String,
-    }],
+    type: [
+      {
+        type: String,
+      },
+    ],
   },
 })
 
 //const Product = mongoose.model('Product',productSchema );
 export default mongoose.model('Product', productSchema)
-

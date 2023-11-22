@@ -93,3 +93,15 @@ Method: GET, Path: /api/users/, Date: 11/22/2023, Time: 10:53:08 AM
 Method: GET, Path: /api/users/, Date: 11/22/2023, Time: 10:54:16 AM
 Method: PUT, Path: /api/users/655cb90ffb79389013f3463c, Date: 11/22/2023, Time: 10:54:38 AM
 Method: PUT, Path: /api/users/655d2de861cad7367f078cbd, Date: 11/22/2023, Time: 11:14:29 AM
+Method: GET, Path: /api/products/, Date: 11/22/2023, Time: 1:54:26 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:54:34 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:56:35 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:57:14 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:57:14 PM
+Method: GET, Path: /api/products/, Date: 11/22/2023, Time: 1:57:54 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:58:04 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:58:27 PM
+Method: POST, Path: /api/products/, Date: 11/22/2023, Time: 1:58:31 PM
+Method: GET, Path: /api/products/655dded7edb445b1556ebf39, Date: 11/22/2023, Time: 1:59:31 PM
+Method: DELETE, Path: /api/products/655dded7edb445b1556ebf39, Date: 11/22/2023, Time: 2:00:10 PM
+Method: GET, Path: /api/products/655dded7edb445b1556ebf39, Date: 11/22/2023, Time: 2:00:22 PM
