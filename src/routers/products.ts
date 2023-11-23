@@ -4,9 +4,9 @@ const router = express.Router()
 import Product from '../models/product'
 import Order from '../models/order'
 import ApiError from '../errors/ApiError'
-import { createNewProduct, deleteProductById, getAllProducts, getProductById, updateProductById } from '../controllers/productController'
+import { createNewProduct, deleteProductById, filterProductByVariantstoSize, getAllProducts, getProductById, updateProductById } from '../controllers/productController'
 
-router.get('/', getAllProducts)
+router.get('/',filterProductByVariantstoSize,  getAllProducts)
 
 router.get('/:productId', getProductById)
 
@@ -19,15 +19,15 @@ router.delete('/:productId', deleteProductById)
 //or products based on specific criteria (e.g., by category, price range).
 
 //fiter by variants
-router.get('/variants/{variant}',async(req,res)=>{
-  const selectedVariant= req.body.variants
-  const productByVar= await Product.find({
-    _var:selectedVariant,
-  })
-  res.status(200).json(productByVar)
 
-})
+
 //fiter by size
-
+// router.get('/',async(req,res)=>{
+//   const sizes= req.query
+//   const productBySize= await Product.find({
+//     _size:sizes,
+//   })
+//   res.status(200).json(productBySize)
+// })
 
 export default router

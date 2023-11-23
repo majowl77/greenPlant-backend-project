@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema({
     type: [{
       type:String,
     }],
-  },
+  }
 })
 
 //const Product = mongoose.model('Product',productSchema );
