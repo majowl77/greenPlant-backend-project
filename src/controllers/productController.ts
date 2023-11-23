@@ -1,6 +1,6 @@
 import ApiError from '../errors/ApiError'
 import Product from '../models/product'
-import {NextFunction, Request, Response} from 'express'
+import { NextFunction, Request, Response } from 'express'
 
 type Filter={
     variants?:string
@@ -17,25 +17,51 @@ export const filterProductByVariantstoSize = async(req:Request,res:Response,next
     if(sizes&& typeof sizes==='string'){
         filters.sizes=sizes
     }
-    req.filters=filters
+    (req as any).filters=filters
     next()
   }
 
-export const getAllProducts =  async ( req: Request, res:Response, next:NextFunction) => {
-  const filters=req.filters
+export type SortOrder = 1 | -1
+
+export const getAllProducts =  async ( req: Request, res:Response) => {
+    const filters=req.filters
+
+    const pageNumber: number = Number(req.query.pageNumber) || 1
+  const perPage: number = Number(req.query.perPage) || 2
+  const sortField: string = (req.query.sortField as string) || 'price' // Explicitly assert type, we can sort by name or price or other
+  const sortOrder: SortOrder = req.query.sortOrder === 'desc' ? -1 : 1
+  const sortOptions: { [key: string]: SortOrder } = { [sortField]: sortOrder }
+
+  try {
     const products = await Product.find(filters)
-    console.log('products:', products)
-    res.json({products})
+      .sort(sortOptions)
+      .skip((pageNumber - 1) * perPage)
+      .limit(perPage)
+      .populate('category')
+
+    const totalProducts = await Product.countDocuments()
+    const totalPages = Math.ceil(totalProducts / perPage)
+
+    res.json({
+      pageNumber,
+      perPage,
+      totalProducts,
+      totalPages,
+      products,
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
 }
 
-export const getProductById= async(req: Request, res:Response)=>{
-    const productId = req.params.productId
-  
-    const product= await Product.findById({
-      _id: productId,
-    })
-    res.status(200).json(product)
-  }
+export const getProductById = async (req: Request, res: Response) => {
+  const productId = req.params.productId
+
+  const product = await Product.findById({
+    _id: productId,
+  })
+  res.status(200).json(product)
+}
 
   export const createNewProduct= async (req: Request, res:Response, next: NextFunction) => {
     const { name, description, quantity, image, price, category, variants, sizes  } = req.body
@@ -52,21 +78,21 @@ export const getProductById= async(req: Request, res:Response)=>{
       price,
       category,
       variants,
-      sizes,
+      sizes
     })
   
     await product.save()
     res.status(201).json( product)
   }
 
-  export const deleteProductById = async(req: Request, res:Response)=>{
-    const productId = req.params.productId
-  
-    await Product.deleteOne({
-      _id: productId,
-    })
-    res.status(204).send()
-  }
+export const deleteProductById = async (req: Request, res: Response) => {
+  const productId = req.params.productId
+
+  await Product.deleteOne({
+    _id: productId,
+  })
+  res.status(204).send()
+}
 
   export const updateProductById= async (req: Request, res:Response) => {
     const newName = req.body.name
@@ -98,4 +124,3 @@ export const getProductById= async(req: Request, res:Response)=>{
        newProduct
     })
   }
-  
