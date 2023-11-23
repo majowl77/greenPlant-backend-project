@@ -46,7 +46,7 @@ export const createNewProduct = async (req: Request, res: Response, next: NextFu
   const { name, description, quantity, image, price, category, variants, sizes } = req.body
 
   if (!name || !description || !image || !price || !category) {
-    next(ApiError.badRequest('Name, Description, image, price and category are requried'))
+    next(ApiError.badRequest('Name, Description, image, price and category are required'))
     return
   }
   const product = new Product({
