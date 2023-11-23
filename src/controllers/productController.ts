@@ -2,9 +2,28 @@ import ApiError from '../errors/ApiError'
 import Product from '../models/product'
 import {NextFunction, Request, Response} from 'express'
 
-export const getAllProducts =  async ( req: Request, res:Response) => {
+type Filter={
+    variants?:string
+    sizes?: string
+  }
   
-    const products = await Product.find()
+export const filterProductByVariantstoSize = async(req:Request,res:Response,next: NextFunction)=>{
+    const filters:Filter={}
+    const variants= req.query.variants
+    const sizes= req.query.sizes
+    if(variants&& typeof variants==='string'||  variants==='string[]'){
+        filters.variants=variants
+    }
+    if(sizes&& typeof sizes==='string'){
+        filters.sizes=sizes
+    }
+    req.filters=filters
+    next()
+  }
+
+export const getAllProducts =  async ( req: Request, res:Response, next:NextFunction) => {
+  const filters=req.filters
+    const products = await Product.find(filters)
     console.log('products:', products)
     res.json({products})
 }
@@ -33,7 +52,7 @@ export const getProductById= async(req: Request, res:Response)=>{
       price,
       category,
       variants,
-      sizes
+      sizes,
     })
   
     await product.save()
@@ -79,3 +98,4 @@ export const getProductById= async(req: Request, res:Response)=>{
        newProduct
     })
   }
+  
