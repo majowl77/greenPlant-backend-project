@@ -4,10 +4,6 @@ import { OrderDocument } from '../types.js'
 // Orders: id, productId, userId, purchasedAt
 
 const orderSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
   products: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Product',
@@ -18,7 +14,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   purchasedAt: {
-    type: String,
+    type: Date,
     required: true,
   },
 })
