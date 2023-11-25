@@ -7,12 +7,13 @@ import ApiError from '../errors/ApiError'
 import {
   createNewProduct,
   deleteProductById,
+  filterProductByVariantstoSize,
   getAllProducts,
   getProductById,
   updateProductById,
 } from '../controllers/productController'
 
-router.get('/',  getAllProducts)
+router.get('/',  filterProductByVariantstoSize, getAllProducts)
 
 router.get('/:productId', getProductById)
 

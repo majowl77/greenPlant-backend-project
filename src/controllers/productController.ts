@@ -2,12 +2,17 @@ import ApiError from '../errors/ApiError'
 import Product from '../models/product'
 import { NextFunction, Request, Response } from 'express'
 
+
 type Filter={
     variants?:string
     sizes?: string
   }
+
+  interface CustomRequest extends Request {
+    filters?: Filter;
+  }
   
-export const filterProductByVariantstoSize = async(req:Request,res:Response,next: NextFunction)=>{
+export const filterProductByVariantstoSize = async(req:CustomRequest,res:Response,next: NextFunction)=>{
     const filters:Filter={}
     const variants= req.query.variants
     const sizes= req.query.sizes
@@ -17,23 +22,26 @@ export const filterProductByVariantstoSize = async(req:Request,res:Response,next
     if(sizes&& typeof sizes==='string'){
         filters.sizes=sizes
     }
-    (req as any).filters=filters
+    req.filters=filters
+    
     next()
   }
 
 export type SortOrder = 1 | -1
 
-export const getAllProducts =  async ( req: Request, res:Response) => {
-    const filters=req.filters
+export const getAllProducts =  async ( req:CustomRequest, res:Response) => {
+  const filters=req.filters|| {}
+  
 
-    const pageNumber: number = Number(req.query.pageNumber) || 1
+  const pageNumber: number = Number(req.query.pageNumber) || 1
   const perPage: number = Number(req.query.perPage) || 2
   const sortField: string = (req.query.sortField as string) || 'price' // Explicitly assert type, we can sort by name or price or other
   const sortOrder: SortOrder = req.query.sortOrder === 'desc' ? -1 : 1
   const sortOptions: { [key: string]: SortOrder } = { [sortField]: sortOrder }
 
   try {
-    const products = await Product.find(filters)
+    
+    const products = await Product.find(filters )
       .sort(sortOptions)
       .skip((pageNumber - 1) * perPage)
       .limit(perPage)
