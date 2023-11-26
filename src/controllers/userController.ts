@@ -25,6 +25,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     } required`
     return next(ApiError.badRequest(errorMessage))
   }
+
   // Check if the user is already registered by using the email as unique
   const existingUser = await User.findOne({ email })
   if (existingUser) {
@@ -39,6 +40,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     email,
     password: hashedPassword,
   })
+
   // save it to the database
   await user.save()
   res.status(201).json({

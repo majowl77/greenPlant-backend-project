@@ -2,17 +2,18 @@ import { NextFunction, Request, Response } from 'express'
 import Category from '../models/category'
 import ApiError from '../errors/ApiError'
 
-              // GET ALL CATEGORIES
+// GET ALL CATEGORIES
 export const getAllcategories = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
       const categories = await Category.find()
       res.status(200).json(categories)
     } catch (error) {
-        next(ApiError.badRequest('Something went wrong while fetching categories.'))
+      next(ApiError.badRequest('Something went wrong while fetching categories.'))
+      return
     }
   }
-}             // GET CRUD FOR SINGLE CATEGORY
+} // GET CRUD FOR SINGLE CATEGORY
 export const getcategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
@@ -21,13 +22,14 @@ export const getcategory = async (req: Request, res: Response, next: NextFunctio
       if (!category) {
         next(ApiError.badRequest('Category not found.'))
         return
-    }
-    res.status(200).json(category)
-} catch (error) {
-        next(ApiError.badRequest('Something went wrong while fetching the category.'))
+      }
+      res.status(200).json(category)
+    } catch (error) {
+      next(ApiError.badRequest('Something went wrong while fetching the category.'))
+      return
     }
   }
-}             //POST CRUD
+} //POST CRUD
 export const newCategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
@@ -39,7 +41,7 @@ export const newCategory = async (req: Request, res: Response, next: NextFunctio
       }
 
       // Check if name length is valid
-      if (name.length < 2 || name.length > 10) {
+      if (name.length < 3 || name.length > 10) {
         next(ApiError.badRequest('Category name must be between 3 and 10 characters.'))
         return
       }
@@ -55,12 +57,12 @@ export const newCategory = async (req: Request, res: Response, next: NextFunctio
         category,
       })
     } catch (error) {
-        next(ApiError.badRequest('Something went wrong while creating the category.'))
-
+      next(ApiError.badRequest('Something went wrong while creating the category.'))
+      return
     }
   }
 }
-               // DELETE CRUD
+// DELETE CRUD
 export const deletecategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
@@ -70,11 +72,12 @@ export const deletecategory = async (req: Request, res: Response, next: NextFunc
       })
       res.status(204).send()
     } catch (error) {
-        next(ApiError.badRequest('Something went wrong while deleting the category.'))
+      next(ApiError.badRequest('Something went wrong while deleting the category.'))
+      return
     }
   }
 }
-              //PUT CRUD
+//PUT CRUD
 export const update = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
@@ -91,7 +94,8 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         category: UpdateCategory,
       })
     } catch (error) {
-        next(ApiError.badRequest('Something went wrong while updating the category.'))
+      next(ApiError.badRequest('Something went wrong while updating the category.'))
+      return
     }
   }
 }
