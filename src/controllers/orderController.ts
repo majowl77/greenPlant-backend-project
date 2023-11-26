@@ -1,52 +1,96 @@
 import { NextFunction, Request, Response } from 'express'
 
+import ApiError from '../errors/ApiError'
 import Order from '../models/order'
 import User from '../models/user'
+import Product from '../models/product'
 
-export const getOrders = async (req: Request, res: Response) => {
-  const orders = await Order.find()
-  res.json(orders)
+export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const orders = await Order.find()
+    res.json(orders)
+  } catch (error: any) {
+    next(ApiError.notFound(error.message))
+  }
 }
 
-export const getOrderById = async (req: Request, res: Response) => {
-  const { orderId } = req.params
-  const order = await Order.findById(orderId)
-  res.json(order)
+export const getOrderById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { orderId } = req.params
+    const order = await Order.findById(orderId)
+    res.json(order)
+  } catch (error: any) {
+    next(ApiError.notFound(error.message))
+  }
 }
 
 export const addNewOrder = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, products, userId } = req.body
+  try {
+    const { products, userId } = req.body
 
-  const order = new Order({
-    name,
-    products,
-    userId,
-    purchasedAt: new Date(),
-  })
-  console.log('orderId:', order._id)
+    // for (let productId in products) {
+    //   reduceProductQtyByOne(productId, next)
+    // }
 
-  const user = new User({
-    name: 'Walter',
-    order: order._id,
-  })
+    const order = new Order({
+      products,
+      userId,
+      purchasedAt: new Date(),
+    })
 
-  await order.save()
-  await user.save()
-  res.json(order)
+    await order.save()
+    res.json(order)
+  } catch (error: any) {
+    next(ApiError.badRequest(error.message))
+  }
 }
 
-export const updateOrder = (req: Request, res: Response) => {
-  const { orderId, newProducts } = req.body
+// export const reduceProductQtyByOne = async (productId: string, next: NextFunction) => {
+//   try {
+//     const product = await Product.findById(productId)
 
-  const newOrder = Order.findByIdAndUpdate(orderId, { products: newProducts })
+//     if (!product) {
+//       next(ApiError.notFound(`Product with ID ${productId} not found.`))
+//       return
+//     }
 
-  res.status(201).json(newOrder)
+//     if (product.quantity > 0) {
+//       const updatedProduct = await Product.findOneAndUpdate(
+//         { _id: productId },
+//         { $inc: { quantity: -1 } },
+//         { new: true }
+//       )
+
+//       // Respond with the updated product
+//       // You might want to send a response to the client here
+//     } else {
+//       next(ApiError.unauthorized(`Product quantity for ${productId} is already zero.`))
+//     }
+//   } catch (error: any) {
+//     next(ApiError.badRequest(error.message))
+//   }
+// }
+
+export const updateOrder = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { orderId, newProducts } = req.body
+
+    const newOrder = Order.findByIdAndUpdate(orderId, { products: newProducts })
+
+    res.status(201).json(newOrder)
+  } catch (error: any) {
+    next(ApiError.notFound(error.message))
+  }
 }
 
-export const deleteOrder = (req: Request, res: Response) => {
-  const { orderId } = req.body
+export const deleteOrder = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { orderId } = req.body
 
-  const deletedOrder = Order.findOneAndDelete(orderId)
+    const deletedOrder = Order.findOneAndDelete(orderId)
 
-  res.status(201).json(deletedOrder)
+    res.status(201).json(deletedOrder)
+  } catch (error: any) {
+    next(ApiError.notFound(error.message))
+  }
 }

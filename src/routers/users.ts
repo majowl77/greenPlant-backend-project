@@ -1,4 +1,5 @@
 import express from 'express'
+
 import {
   registerNewUser,
   deleteUser,
@@ -8,9 +9,13 @@ import {
 } from '../controllers/userController'
 
 const router = express.Router()
+
 router.get('/', getUsers)
+
 router.post('/register', registerNewUser)
+
 router.post('/login', loginUser)
+
 router.delete('/:userId', deleteUser)
 router.put('profile/:userId', updateUser)
 
