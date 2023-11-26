@@ -14,7 +14,7 @@ export const getAllcategories = async (req: Request, res: Response, next: NextFu
     }
   }
 } // GET CRUD FOR SINGLE CATEGORY
-export const getcategory = async (req: Request, res: Response, next: NextFunction) => {
+export const getCategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
       const categoryId = req.params.categoryId
@@ -63,7 +63,7 @@ export const newCategory = async (req: Request, res: Response, next: NextFunctio
   }
 }
 // DELETE CRUD
-export const deletecategory = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteCategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
       const { categoryId } = req.params
@@ -78,7 +78,7 @@ export const deletecategory = async (req: Request, res: Response, next: NextFunc
   }
 }
 //PUT CRUD
-export const update = async (req: Request, res: Response, next: NextFunction) => {
+export const updateCategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
       const UpdateName = req.body.name

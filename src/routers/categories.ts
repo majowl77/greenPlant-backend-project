@@ -2,10 +2,10 @@ import { Router } from 'express'
 
 import {
   getAllcategories,
-  getcategory,
+  getCategory,
   newCategory,
-  deletecategory,
-  update,
+  deleteCategory,
+  updateCategory,
 } from '../controllers/categoriesController'
 
 const router = Router()
@@ -16,14 +16,14 @@ const router = Router()
 router.get('/', getAllcategories)
 
 // GET single category
-router.get('/:categoryId', getcategory)
+router.get('/:categoryId', getCategory)
 
 // CREATE category
 router.post('/', newCategory)
 
 // DELETE category by id
-router.delete('/:categoryId', deletecategory)
+router.delete('/:categoryId', deleteCategory)
 
-router.put('/:categoryId', update)
+router.put('/:categoryId', updateCategory)
 
 export default router
