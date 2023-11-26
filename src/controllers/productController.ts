@@ -28,7 +28,7 @@ export const filterProductByVariantstoSize = async (
 export type SortOrder = 1 | -1
 
 export const getAllProducts = async (req: Request, res: Response) => {
-  const filters = req.filters
+  const filters = req.filters 
 
   const pageNumber: number = Number(req.query.pageNumber) || 1
   const perPage: number = Number(req.query.perPage) || 2
