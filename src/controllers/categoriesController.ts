@@ -1,6 +1,6 @@
-import { NextFunction ,Request,Response } from "express";
-import Category from "../models/category";
-import ApiError from "../errors/ApiError";
+import { NextFunction, Request, Response } from 'express'
+import Category from '../models/category'
+import ApiError from '../errors/ApiError'
 
 export const getAllcategories =async (  req:Request ,
     res: Response,
@@ -14,8 +14,6 @@ export const getAllcategories =async (  req:Request ,
          } catch(error){
             next(error);
          }
-            
-       
 
     
 }}
