@@ -23,7 +23,6 @@ export const filterProductByVariantstoSize = async(req:CustomRequest,res:Respons
         filters.sizes=sizes
     }
     req.filters=filters
-    
     next()
   }
 
