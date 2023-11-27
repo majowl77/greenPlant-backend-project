@@ -4,6 +4,8 @@ import ApiError from '../errors/ApiError'
 import Order from '../models/order'
 import User from '../models/user'
 import Product from '../models/product'
+import products from '../routers/products'
+import mongoose, { Types } from 'mongoose'
 
 export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -29,8 +31,8 @@ export const addNewOrder = async (req: Request, res: Response, next: NextFunctio
     const { products, userId } = req.body
 
     // for (let productId in products) {
-    //   reduceProductQtyByOne(productId, next)
-    // }
+    //    reduceProductQtyByOne(productId, next)
+    //  }
 
     const order = new Order({
       products,
@@ -43,33 +45,76 @@ export const addNewOrder = async (req: Request, res: Response, next: NextFunctio
   } catch (error: any) {
     next(ApiError.badRequest(error.message))
   }
+   
 }
 
-// export const reduceProductQtyByOne = async (productId: string, next: NextFunction) => {
-//   try {
-//     const product = await Product.findById(productId)
+export const AcceptOrder = async (req: Request, res: Response, next: NextFunction) => {
+  const orderId= req.params.orderId
 
-//     if (!product) {
-//       next(ApiError.notFound(`Product with ID ${productId} not found.`))
-//       return
-//     }
 
-//     if (product.quantity > 0) {
-//       const updatedProduct = await Product.findOneAndUpdate(
-//         { _id: productId },
-//         { $inc: { quantity: -1 } },
-//         { new: true }
-//       )
+  const order= await Order.findById(orderId)
+  if(!order){
+   return next(ApiError.badRequest('order is not found'))
 
-//       // Respond with the updated product
-//       // You might want to send a response to the client here
-//     } else {
-//       next(ApiError.unauthorized(`Product quantity for ${productId} is already zero.`))
-//     }
-//   } catch (error: any) {
-//     next(ApiError.badRequest(error.message))
-//   }
-// }
+  }
+  const products= order.products
+  // for (products) {
+  //      reduceProductQtyByOne(productId, next)
+  //    }
+  const productId = mongoose.Types.ObjectId.toString()
+  products.forEach((objectId) => {
+      // Perform some action for each productId
+     
+      reduceProductQtyByOne(productId, next) ;
+    });
+
+    //const orderStatus= 
+    // if (productId.> 0) {
+    //   const updatedProduct = await Product.findOneAndUpdate(
+    //     { _id: productId },
+    //     { $inc: { quantity: -1 } },
+    //     { new: true }
+    //   )
+  
+      // Update the order status to "accepted"
+      const updatedOrder = await Order.findOneAndUpdate(
+        { _id: orderId, status: 'pending' },
+        { $set: { status: 'accepted' } },
+        { new: true }
+      );
+  
+      if (!updatedOrder) {
+        return next(ApiError.badRequest('Failed to update order status'));
+      }
+    
+}
+
+
+export const reduceProductQtyByOne = async (productId:string, next: NextFunction) => {
+  try {
+    const product = await Product.findById(productId)
+
+    if (!product) {
+      next(ApiError.notFound(`Product with ID ${productId} not found.`))
+      return
+    }
+
+    if (product.quantity > 0) {
+      const updatedProduct = await Product.findOneAndUpdate(
+        { _id: productId },
+        { $inc: { quantity: -1 } },
+        { new: true }
+      )
+
+      // Respond with the updated product
+      // You might want to send a response to the client here
+    } else {
+      next(ApiError.unauthorized(`Product is out of stock.`))
+    }
+  } catch (error: any) {
+    next(ApiError.badRequest(error.message))
+  }
+}
 
 export const updateOrder = (req: Request, res: Response, next: NextFunction) => {
   try {

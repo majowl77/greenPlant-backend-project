@@ -17,6 +17,11 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  orderStatus: {
+    type: String,
+    enum: ['pending', 'accepted','shipped' ,'delivered'], //order statuses
+    default: 'pending',
+  },
 })
 
 export default mongoose.model<OrderDocument>('Order', orderSchema)
