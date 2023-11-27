@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose'
+import { boolean } from 'zod'
 import { UserDocument } from '../types'
 
 export enum UserRole {
@@ -29,6 +30,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: UserRole, // Literal values using enum
       default: UserRole.User, // Default value for the 'role' is a user
+    },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
+    activationToken: {
+      type: String,
     },
   },
   {

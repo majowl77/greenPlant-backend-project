@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import ApiError from '../errors/ApiError'
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
+import nodemailer from 'nodemailer'
 
 import User from '../models/user'
+import ApiError from '../errors/ApiError'
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await User.find()
@@ -11,26 +13,24 @@ export const getUsers = async (req: Request, res: Response) => {
   })
 }
 
+function generateActivationToken() {
+  return crypto.randomBytes(32).toString('hex')
+}
+// service to send emails in your behalf
+const transporter = nodemailer.createTransport({
+  
+})
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
-  // as first step receive everthing from the request body as it's in our schema
-  const { firstName, lastName, email, password } = req.body
 
-  // check all the requierd fields are not empty
-  const requiredFields = ['firstName', 'lastName', 'email', 'password']
-  const missingFields = requiredFields.filter((field) => !req.body[field])
-
-  if (missingFields.length > 0) {
-    const errorMessage = `${missingFields.join(', ')} ${
-      missingFields.length > 1 ? 'are' : 'is'
-    } required`
-    return next(ApiError.badRequest(errorMessage))
-  }
+  // as first step receive everything from the request body as it's in our schema
+  const { firstName, lastName, email, password } = req.validateUser
 
   // Check if the user is already registered by using the email as unique
   const existingUser = await User.findOne({ email })
   if (existingUser) {
     return next(ApiError.conflict('Email is already registered'))
   }
+  const activationToken = generateActivationToken()
   const hashedPassword = await bcrypt.hash(password, 10)
 
   // create a new instant form the schema and provied the properites to it

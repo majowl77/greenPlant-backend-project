@@ -7,13 +7,13 @@ import {
   updateUser,
   loginUser,
 } from '../controllers/userController'
-import { ValidateUser } from '../middlewares/validateUser'
+import { validateUser } from '../middlewares/validateUser'
 
 const router = express.Router()
 
-router.get('/', getUsers)
+router.get('/admin/getAllUsers', getUsers)
 
-router.post('/register', ValidateUser, registerNewUser)
+router.post('/register', validateUser, registerNewUser)
 
 router.post('/login', loginUser)
 
