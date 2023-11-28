@@ -1,41 +1,33 @@
 import { Request, Response, NextFunction } from 'express'
 import bcrypt from 'bcrypt'
-import crypto from 'crypto'
-import nodemailer from 'nodemailer'
+import jwt from 'jsonwebtoken'
 
 import User from '../models/user'
 import ApiError from '../errors/ApiError'
+import { generateActivationToken, sendActivationEmail } from '../utils/email'
 import { dev } from '../config'
 
-function generateActivationToken() {
-  return crypto.randomBytes(32).toString('hex')
-}
-// service to send emails in your behalf i.e. Node.js library for sending emails
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: dev.email.user,
-    pass: dev.email.pass,
-  },
-})
+export const activateUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { activationToken } = req.params
+  const user = await User.findOne({ activationToken })
 
-function sendActivationEmail(userEmail: string, activationToken: string) {
-  const activationLink = `${dev.email.domain}/api/users/activateUser/${activationToken}`
-  console.log('activationLINK', activationLink)
-
-  const mailOptions = {
-    form: dev.email.user,
-    to: userEmail,
-    subject: 'Account Activation ',
+  if (!user) {
+    return next(ApiError.badRequest('Invalid activation token'))
   }
-  try {
-  } catch (error) {}
+
+  user.isActive = true
+  user.activationToken = undefined
+
+  await user.save()
+
+  res.status(200).json({
+    message: 'Your account has been successfully activated!',
+  })
 }
 
-export const activateUser = async () => {}
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
   // as first step receive everything from the request body as it's in our schema
-  const { firstName, lastName, email, password } = req.validateUser
+  const { firstName, lastName, email, password } = req.validateRegisteredUser
 
   // Check if the user is already registered by using the email as unique
   const existingUser = await User.findOne({ email })
@@ -55,32 +47,38 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     activationToken,
   })
 
+  await sendActivationEmail(email, activationToken, firstName)
   // save it to the database
   await user.save()
   res.status(201).json({
-    msg: 'user has been created ',
+    msg: 'Your registration was successful!. Check your email to activate your account ',
     user,
   })
 }
-export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body
 
-  //check the requset body not empty
-  if (!email || !password) {
-    const errorMessage = `${!email ? 'email' : ''}, ${!password ? 'password' : ''} required`
-    return next(ApiError.conflict(errorMessage))
-  }
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.validateLoginUser
 
   // find the user uing its email
   const existingUser = await User.findOne({ email })
   if (!existingUser) {
-    return next(ApiError.badRequest('can not find the user '))
+    return next(ApiError.badRequest('Invalid email or account is not activated!'))
   }
   // Check if the entered password matches the stored hashed password
   const passwordMatch = await bcrypt.compare(password, existingUser.password)
   if (!passwordMatch) {
-    return next(ApiError.unauthorized('Invalid password'))
+    return next(ApiError.unauthorized('Invalid email or password'))
   }
+
+  const token = jwt.sign(
+    {
+      userID: existingUser.id,
+      email: existingUser.email,
+      role: existingUser.role,
+    },
+    dev.auth.accessToken as string,
+    { expiresIn: '24h' }
+  )
 
   // At this point, the user is authenticated
   res.status(200).json({

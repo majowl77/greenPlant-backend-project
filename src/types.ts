@@ -12,4 +12,6 @@ export type UserDocument = Document & {
   email: string
   password: string
   role: string
+  isActive: Boolean
+  activationToken: string | undefined
 }
