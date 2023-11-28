@@ -13,3 +13,8 @@ export type UserDocument = Document & {
   password: string
   role: string
 }
+
+
+export type CategoryDocument = Document & {
+  categoryName: string
+}
