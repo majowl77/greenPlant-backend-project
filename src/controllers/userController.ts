@@ -5,6 +5,7 @@ import nodemailer from 'nodemailer'
 
 import User from '../models/user'
 import ApiError from '../errors/ApiError'
+import { dev } from '../config'
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await User.find()
@@ -16,12 +17,33 @@ export const getUsers = async (req: Request, res: Response) => {
 function generateActivationToken() {
   return crypto.randomBytes(32).toString('hex')
 }
-// service to send emails in your behalf
+// service to send emails in your behalf i.e. Node.js library for sending emails
 const transporter = nodemailer.createTransport({
-  
+  service: 'gmail',
+  auth: {
+    user: dev.email.user,
+    pass: dev.email.pass,
+  },
 })
-export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
 
+function sendActivationEmail(userEmail: string, activationToken: string) {
+  const activationLink = `${dev.email.domain}/api/users/activateUser/${activationToken}`
+  console.log('activationLINK', activationLink)
+
+  const mailOptions = {
+    form: dev.email.user,
+    to: userEmail,
+    subject: 'Account Activation ',
+  }
+  try{
+    
+  }catch(error){
+
+  }
+}
+
+export const activateUser = async () => {}
+export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
   // as first step receive everything from the request body as it's in our schema
   const { firstName, lastName, email, password } = req.validateUser
 
@@ -31,6 +53,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     return next(ApiError.conflict('Email is already registered'))
   }
   const activationToken = generateActivationToken()
+
   const hashedPassword = await bcrypt.hash(password, 10)
 
   // create a new instant form the schema and provied the properites to it
@@ -39,6 +62,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     lastName,
     email,
     password: hashedPassword,
+    activationToken,
   })
 
   // save it to the database
