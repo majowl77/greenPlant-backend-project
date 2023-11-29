@@ -6,6 +6,7 @@ import User from '../models/user'
 import Product from '../models/product'
 import products from '../routers/products'
 import mongoose, { Types } from 'mongoose'
+import { orderStatus } from '../constants'
 
 export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,18 +27,29 @@ export const getOrderById = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-export const addNewOrder = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { products, userId } = req.body
+export const addToCart = async (req: Request, res: Response, next: NextFunction) =>{
+  //WORKFLOW: 
+  //post method i guess
+  //the cart is empty array at the begginig 
+  // add products (if possible display info) to the cart and quantity of each product default:1
+  // calculate the  total price of products
+  //when checkout automatically create new order and decrease the products inStock depinding on quantity of each product in the cart 
 
-    // for (let productId in products) {
-    //    reduceProductQtyByOne(productId, next)
-    //  }
+  //Preparations:
+  //create cart model
+  
+  
+}
+
+export const addNewOrder = async (req: Request, res: Response, next: NextFunction) => {
+ try {
+    const { products, userId } = req.body
 
     const order = new Order({
       products,
       userId,
       purchasedAt: new Date(),
+      
     })
 
     await order.save()
@@ -48,49 +60,8 @@ export const addNewOrder = async (req: Request, res: Response, next: NextFunctio
    
 }
 
-export const AcceptOrder = async (req: Request, res: Response, next: NextFunction) => {
-  const orderId= req.params.orderId
 
-
-  const order= await Order.findById(orderId)
-  if(!order){
-   return next(ApiError.badRequest('order is not found'))
-
-  }
-  const products= order.products
-  // for (products) {
-  //      reduceProductQtyByOne(productId, next)
-  //    }
-  const productId = mongoose.Types.ObjectId.toString()
-  products.forEach((objectId) => {
-      // Perform some action for each productId
-     
-      reduceProductQtyByOne(productId, next) ;
-    });
-
-    //const orderStatus= 
-    // if (productId.> 0) {
-    //   const updatedProduct = await Product.findOneAndUpdate(
-    //     { _id: productId },
-    //     { $inc: { quantity: -1 } },
-    //     { new: true }
-    //   )
-  
-      // Update the order status to "accepted"
-      const updatedOrder = await Order.findOneAndUpdate(
-        { _id: orderId, status: 'pending' },
-        { $set: { status: 'accepted' } },
-        { new: true }
-      );
-  
-      if (!updatedOrder) {
-        return next(ApiError.badRequest('Failed to update order status'));
-      }
-    
-}
-
-
-export const reduceProductQtyByOne = async (productId:string, next: NextFunction) => {
+export const reduceProductQtyByOne = async ( productId:string, next: NextFunction) => {
   try {
     const product = await Product.findById(productId)
 
@@ -105,7 +76,7 @@ export const reduceProductQtyByOne = async (productId:string, next: NextFunction
         { $inc: { quantity: -1 } },
         { new: true }
       )
-
+      console.log("yes worked ")
       // Respond with the updated product
       // You might want to send a response to the client here
     } else {
@@ -115,12 +86,52 @@ export const reduceProductQtyByOne = async (productId:string, next: NextFunction
     next(ApiError.badRequest(error.message))
   }
 }
+export const acceptOrder = async (req: Request, res: Response, next: NextFunction) => {
+  const orderId= req.params.orderId
 
-export const updateOrder = (req: Request, res: Response, next: NextFunction) => {
+
+  const order= await Order.findById(orderId)
+  if(!order){
+   return next(ApiError.badRequest('order is not found'))
+  }
+  const products= order.products
+
+  products.forEach((productId ) => {
+      // Perform some action for each productId
+     const productID = productId.toString()
+      reduceProductQtyByOne(productID, next) ;
+    });
+
+  
+      // Update the order status to "accepted"
+      const updatedOrder =await Order.findByIdAndUpdate(orderId, { orderStatus: orderStatus.accepted  },  { new: true }
+      )
+  
+      if (!updatedOrder) {
+        return next(ApiError.badRequest('Failed to update order status'));
+      }
+      else{res.json({ message: 'Order accepted successfully', updatedOrder });}
+    
+}
+
+export const updateOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { orderId, newProducts } = req.body
+    const  updatedStatus = req.body.orderStatus
+    const  orderId = req.params.orderId
 
-    const newOrder = Order.findByIdAndUpdate(orderId, { products: newProducts })
+    const order= await Order.findById(orderId)
+    if(!order){
+     return next(ApiError.badRequest('order is not found'))
+    }
+    
+    console.log(order)
+    const currentStatus = order.orderStatus;
+
+    if (currentStatus !== orderStatus.accepted) {
+      return res.status(400).json({ message: 'you should accept order first' });
+    }
+
+    const newOrder = await Order.findByIdAndUpdate(orderId, { orderStatus: updatedStatus },{new: true})
 
     res.status(201).json(newOrder)
   } catch (error: any) {

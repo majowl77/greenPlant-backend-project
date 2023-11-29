@@ -1,5 +1,6 @@
 import mongoose, { Document } from 'mongoose'
 import { OrderDocument } from '../types.js'
+import { orderStatus } from '../constants.js'
 
 // Orders: id, productId, userId, purchasedAt
 
@@ -19,7 +20,7 @@ const orderSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    enum: ['pending', 'accepted','shipped' ,'delivered'], //order statuses
+    enum:  orderStatus, //order statuses
     default: 'pending',
   },
 })
