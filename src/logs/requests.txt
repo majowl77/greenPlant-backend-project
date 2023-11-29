@@ -399,3 +399,9 @@ Method: PUT, Path: /api/users/admin/orders/updatestatus/6566f91758e69f503287c0f2
 Method: PUT, Path: /api/users/admin/orders/updatestatus/6566f91758e69f503287c0f2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ١١:٤٤:٣٠ ص
 Method: PUT, Path: /api/users/admin/orders/updatestatus/65649a865b94cdd3acf69153, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ١١:٥٣:٣٨ ص
 Method: PUT, Path: /api/users/admin/orders/updatestatus/65649a865b94cdd3acf69153, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ١١:٥٣:٤٣ ص
+Method: POST, Path: /api/orders/65648a23e834a65d8b1f34a2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ٣:١٨:١١ م
+Method: POST, Path: /api/orders/65648a23e834a65d8b1f34a2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ٣:٢٣:٣٩ م
+Method: GET, Path: /api/users/addToCart/65648a23e834a65d8b1f34a2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ٤:٠٤:٥٥ م
+Method: POST, Path: /api/users/addToCart/65648a23e834a65d8b1f34a2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ٤:٠٧:٤٩ م
+Method: POST, Path: /api/users/addToCart/65648a23e834a65d8b1f34a2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ٤:٠٩:٤٠ م
+Method: POST, Path: /api/users/addToCart/65648a23e834a65d8b1f34a2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ٤:١٠:٠٦ م
