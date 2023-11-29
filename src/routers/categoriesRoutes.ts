@@ -7,7 +7,7 @@ import {
   deleteCategory,
   updateCategory,
 } from '../controllers/categoriesController'
-import { validateCategory } from '../middlewares/Validation/validateCategory'
+import { validateCategory } from '../validation/validateCategory'
 
 const router = Router()
 

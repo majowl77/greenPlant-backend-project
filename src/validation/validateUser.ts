@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { ZodError, z } from 'zod'
-import ApiError from '../../errors/ApiError'
+import ApiError from '../errors/ApiError'
 export function validateUser(req: Request, res: Response, next: NextFunction) {
   // Zod schema for user data validation
   const userSchemaValidator = z.object({
