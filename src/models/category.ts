@@ -8,11 +8,11 @@ const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Category required'],
+      required: true,
       // UNIQUE INDEX
-      unique: [true, 'Category must be unique'],
-      minlength: [3, 'product name be at least 3 character long'],
-      maxlength: [20, 'product name be at most 20 character long'],
+      unique: true,
+      minlength: 3,
+      maxlength: 20,
     },
   },
   { timestamps: true }

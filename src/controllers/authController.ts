@@ -72,12 +72,15 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
   const token = jwt.sign(
     {
-      userID: existingUser.id,
+      userID: existingUser._id,
       email: existingUser.email,
       role: existingUser.role,
     },
-    dev.auth.accessToken as string,
-    { expiresIn: '24h' }
+    dev.auth.secretToken as string,
+    {
+      expiresIn: '24h',
+      algorithm: 'HS256',
+    }
   )
 
   // At this point, the user is authenticated

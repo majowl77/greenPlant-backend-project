@@ -30,7 +30,7 @@ export const getCategory = async (req: Request, res: Response, next: NextFunctio
     }
   }
 } //POST CRUD
-export const newCategory = async (req: Request, res: Response, next: NextFunction) => {
+export const createCategory = async (req: Request, res: Response, next: NextFunction) => {
   {
     try {
       const name = req.body.name
@@ -90,7 +90,7 @@ export const updateCategory = async (req: Request, res: Response, next: NextFunc
           new: true,
         }
       )
-      res.json({
+      res.status(200).json({
         category: UpdateCategory,
       })
     } catch (error) {

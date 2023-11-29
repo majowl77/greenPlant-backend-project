@@ -3,10 +3,11 @@ import { Router } from 'express'
 import {
   getAllcategories,
   getCategory,
-  newCategory,
+  createCategory,
   deleteCategory,
   updateCategory,
 } from '../controllers/categoriesController'
+import { validateCategory } from '../validation/validateCategory'
 
 const router = Router()
 
@@ -19,7 +20,7 @@ router.get('/', getAllcategories)
 router.get('/:categoryId', getCategory)
 
 // CREATE category
-router.post('/', newCategory)
+router.post('/', validateCategory, createCategory)
 
 // DELETE category by id
 router.delete('/:categoryId', deleteCategory)
