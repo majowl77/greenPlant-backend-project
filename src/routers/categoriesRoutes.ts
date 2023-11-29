@@ -7,6 +7,7 @@ import {
   deleteCategory,
   updateCategory,
 } from '../controllers/categoriesController'
+import { validateCategory } from '../middlewares/Validation/validateCategory'
 
 const router = Router()
 
@@ -19,7 +20,7 @@ router.get('/', getAllcategories)
 router.get('/:categoryId', getCategory)
 
 // CREATE category
-router.post('/', createCategory)
+router.post('/', validateCategory, createCategory)
 
 // DELETE category by id
 router.delete('/:categoryId', deleteCategory)

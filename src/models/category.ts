@@ -8,7 +8,7 @@ const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required:true,
+      required: true,
       // UNIQUE INDEX
       unique: true,
       minlength: 3,

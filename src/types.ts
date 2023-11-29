@@ -14,7 +14,17 @@ export type UserDocument = Document & {
   role: string
 }
 
-
 export type CategoryDocument = Document & {
-  categoryName: string
+  name: string
+}
+
+export type ProductDocument = Document & {
+  name: string
+  description: string
+  image: string
+  quantity: number
+  price: number
+  category: mongoose.Types.ObjectId[]
+  variants: string[]
+  sizes: string[]
 }

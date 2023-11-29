@@ -185,7 +185,7 @@ Method: GET, Path: /api/products/, Date: ١١‏/٥‏/١٤٤٥ هـ, Time: ٨:�
 Method: GET, Path: /api/products/, Date: ١١‏/٥‏/١٤٤٥ هـ, Time: ٨:٥٠:٥٨ م
 Method: GET, Path: /api/products/, Date: ١١‏/٥‏/١٤٤٥ هـ, Time: ٨:٥١:٠٥ م
 Method: GET, Path: /api/products/, Date: ١٢‏/٥‏/١٤٤٥ هـ, Time: ١١:١٨:٢٢ ص
-=======
+
 Method: GET, Path: /, Date: 11/20/2023, Time: 11:31:29 PM
 Method: GET, Path: /api/products, Date: 11/20/2023, Time: 11:31:35 PM
 Method: GET, Path: /, Date: 11/20/2023, Time: 11:32:02 PM
@@ -288,65 +288,3 @@ Method: GET, Path: /api/products, Date: 11/23/2023, Time: 2:18:01 PM
 Method: GET, Path: /api/products, Date: 11/23/2023, Time: 2:18:17 PM
 Method: GET, Path: /api/products, Date: 11/23/2023, Time: 2:18:23 PM
 >>>>>>> 286bb74f5278f7b98343a0b08153a3dccffc127e
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:06:22 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:08:54 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:12:36 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:12:50 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:14:08 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:14:23 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:14:41 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:17:31 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:17:40 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:18:15 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:30:08 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:31:45 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:33:10 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:33:19 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:33:43 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:35:25 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:36:10 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:40:20 PM
-Method: GET, Path: /api/products/, Date: 11/26/2023, Time: 2:40:48 PM
-Method: GET, Path: /api/products/sortField:price&sortOrder:desc, Date: 11/26/2023, Time: 2:42:44 PM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 5:29:28 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:29:55 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:30:33 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:32:02 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 5:41:30 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 5:41:41 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 5:43:38 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:43:44 AM
-Method: GET, Path: /api/products/sortField=price&%20sortOrder=desc, Date: 11/27/2023, Time: 5:44:23 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:45:30 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:45:42 AM
-Method: GET, Path: /api/products/search=Smartphone, Date: 11/27/2023, Time: 5:45:53 AM
-Method: POST, Path: /api/products/, Date: 11/27/2023, Time: 5:47:59 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:48:10 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:50:54 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 5:50:59 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:19:59 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:23:21 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:23:37 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:24:01 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:24:15 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:25:29 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 6:25:33 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 6:26:02 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 6:28:15 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 6:28:19 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:28:27 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:29:48 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:30:11 AM
-Method: GET, Path: /api/products, Date: 11/27/2023, Time: 6:30:20 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:30:28 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:30:41 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:30:46 AM
-Method: POST, Path: /api/products/, Date: 11/27/2023, Time: 6:31:44 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:31:58 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:32:24 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:32:55 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:34:30 AM
-Method: GET, Path: /api/products/sortField=price&%20sortOrder=desc, Date: 11/27/2023, Time: 6:34:50 AM
-Method: GET, Path: /api/products/sortField=price&%20sortOrder=desc, Date: 11/27/2023, Time: 6:35:22 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:36:19 AM
-Method: GET, Path: /api/products/, Date: 11/27/2023, Time: 6:36:47 AM

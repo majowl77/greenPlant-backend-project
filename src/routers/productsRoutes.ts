@@ -12,12 +12,13 @@ import {
   getProductById,
   updateProductById,
 } from '../controllers/productController'
+import { validateProduct } from '../middlewares/Validation/validateProduct'
 
 router.get('/',  filterProductByVariantstoSize, getAllProducts)
 
 router.get('/:productId', getProductById)
 
-router.post('/', createNewProduct)
+router.post('/',validateProduct, createNewProduct)
 
 router.put('/:productId', updateProductById)
 

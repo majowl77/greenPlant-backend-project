@@ -1,9 +1,12 @@
 declare namespace Express {
   interface Request {
     msg: string
-    user: {
-      id: string
-      first_name: string
+    validateUser: {
+      firstName: string
+      lastName: string
+      email: string
+      password: string
+      
     }
   }
 }
