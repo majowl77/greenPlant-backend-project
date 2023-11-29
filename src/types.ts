@@ -15,4 +15,21 @@ export type UserDocument = Document & {
   email: string
   password: string
   role: string
+  isActive: Boolean
+  activationToken: string | undefined
+}
+
+export type CategoryDocument = Document & {
+  name: string
+}
+
+export type ProductDocument = Document & {
+  name: string
+  description: string
+  image: string
+  quantity: number
+  price: number
+  category: mongoose.Types.ObjectId[]
+  variants: string[]
+  sizes: string[]
 }

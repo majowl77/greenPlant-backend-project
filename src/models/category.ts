@@ -4,17 +4,18 @@ export type CategoryDocument = Document & {
   name: string
 }
 
-const categorySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true,'Category required'],
-    // UNIQUE INDEX
-    unique:[true, 'Category must be unique'],
-    minlength:[3,'product title be at least 3 character long'],
-    maxlength:[20,'product title be at most 20 character long']
+const categorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      // UNIQUE INDEX
+      unique: true,
+      minlength: 3,
+      maxlength: 20,
+    },
   },
-
-}, {timestamps: true}
-);
+  { timestamps: true }
+)
 
 export default mongoose.model<CategoryDocument>('Category', categorySchema)

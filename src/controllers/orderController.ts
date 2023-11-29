@@ -4,7 +4,7 @@ import ApiError from '../errors/ApiError'
 import Order from '../models/order'
 import User from '../models/user'
 import Product from '../models/product'
-import products from '../routers/products'
+import products from '../routers/productsRoutes'
 import mongoose, { Types } from 'mongoose'
 import { orderStatus } from '../constants'
 
@@ -116,7 +116,6 @@ export const acceptOrder = async (req: Request, res: Response, next: NextFunctio
 
 export const updateOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const  updatedStatus = req.body.orderStatus
     const  orderId = req.params.orderId
 
     const order= await Order.findById(orderId)
@@ -125,15 +124,22 @@ export const updateOrder = async (req: Request, res: Response, next: NextFunctio
     }
     
     console.log(order)
-    const currentStatus = order.orderStatus;
+    let currentStatus = order.orderStatus;
 
-    if (currentStatus !== orderStatus.accepted) {
+    if (currentStatus === orderStatus.pending ) {
       return res.status(400).json({ message: 'you should accept order first' });
     }
 
-    const newOrder = await Order.findByIdAndUpdate(orderId, { orderStatus: updatedStatus },{new: true})
+    if(currentStatus === orderStatus.accepted){
+      currentStatus = orderStatus.shipped
+    }else{
+      currentStatus = orderStatus.delivered
+    }
+    const newOrder = await Order.findByIdAndUpdate(orderId, { orderStatus: currentStatus },{new: true})
 
-    res.status(201).json(newOrder)
+    res.status(201).json({
+      newOrder,
+    msg : "order status has changed check it out "})
   } catch (error: any) {
     next(ApiError.notFound(error.message))
   }
