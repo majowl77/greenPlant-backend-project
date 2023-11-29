@@ -43,11 +43,11 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
 
   try {
     const products = await Product.find(filters)
+      .find({ name: { $regex: search, $options: 'i' } })
       .sort(sortOptions)
       .skip((pageNumber - 1) * perPage)
       .limit(perPage)
-      .populate('category')
-      .find({ name: { $regex: search, $options: 'i' } })
+      // .populate('category')
     // Use $regex to search for documents where the 'name' field
     // matches the specified pattern (provided by the 'search' variable),
     // and $options: 'i' ensures a case-insensitive match.
@@ -67,12 +67,16 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
 }
 
 export const getProductById = async (req: Request, res: Response) => {
-  const productId = req.params.productId
+  try {
+    const productId = req.params.productId
 
-  const product = await Product.findById({
-    _id: productId,
-  })
-  res.status(200).json(product)
+    const product = await Product.findById({
+      _id: productId,
+    })
+    res.status(200).json(product)
+  } catch (error) {
+    res.status(500).json({ message: 'internal server error' })
+  }
 }
 
 export const createNewProduct = async (req: Request, res: Response, next: NextFunction) => {

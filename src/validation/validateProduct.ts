@@ -14,7 +14,7 @@ export function validateProduct(req: Request, res: Response, next: NextFunction)
       .min(10, { message: 'Product description must at least 3 characters' })
       .max(100, { message: 'Product description must be 100 characters or less' }),
     image: z.string().min(1, { message: 'Product image is required' }),
-    quantity: z.number().nonnegative({ message: 'Quantity in stock must be nonnegative number' }),
+    quantity: z.number().nonnegative({ message: 'Quantity in stock must be non-negative number' }),
     price: z.number().nonnegative({ message: 'Product price must be nonnegative number' }),
     category: z.array(z.string()).min(1, { message: 'Please enter at least one category' }),
   })
