@@ -11,6 +11,12 @@ declare namespace Express {
       email: string
       password: string
     }
+    validatedUserUpdate?: {
+      firstName?: string | undefined
+      lastName?: string | undefined
+      email?: string | undefined
+      password?: string | undefined
+    }
     decodedUser: {
       userID: string
       email: string

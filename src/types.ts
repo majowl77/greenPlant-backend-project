@@ -37,7 +37,7 @@ export type ProductDocument = Document & {
 export type DecodedUser = {
   userID: string
   email: string
-  role: 'USER' | 'ADMIN'
+  role: Role
   iat: number
   exp: number
 }

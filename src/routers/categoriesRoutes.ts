@@ -7,6 +7,8 @@ import {
   deleteCategory,
   updateCategory,
 } from '../controllers/categoriesController'
+import { checkAuth } from '../middlewares/checkAuth'
+import { checkRole } from '../middlewares/checkRole'
 import { validateCategory } from '../validation/validateCategory'
 
 const router = Router()
@@ -23,7 +25,7 @@ router.get('/:categoryId', getCategory)
 router.post('/', validateCategory, createCategory)
 
 // DELETE category by id
-router.delete('/:categoryId', deleteCategory)
+router.delete('/:categoryId', checkAuth, checkRole('ADMIN'), deleteCategory)
 
 router.put('/:categoryId', updateCategory)
 
