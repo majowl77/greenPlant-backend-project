@@ -5,7 +5,10 @@ import nodemailer from 'nodemailer'
 
 import User from '../models/user'
 import ApiError from '../errors/ApiError'
+<<<<<<< HEAD
 import { dev } from '../config'
+=======
+>>>>>>> backend
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await User.find()
@@ -14,6 +17,7 @@ export const getUsers = async (req: Request, res: Response) => {
   })
 }
 
+<<<<<<< HEAD
 function generateActivationToken() {
   return crypto.randomBytes(32).toString('hex')
 }
@@ -101,6 +105,8 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
   })
 }
 
+=======
+>>>>>>> backend
 export const deleteUser = async (req: Request, res: Response) => {
   const { userId } = req.params
   await User.deleteOne({

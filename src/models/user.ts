@@ -3,9 +3,17 @@ import { boolean } from 'zod'
 import { UserDocument } from '../types'
 
 export enum UserRole {
-  Admin = 'admin',
-  User = 'user',
+  Admin = 'ADMIN',
+  User = 'USER',
 }
+
+function validateRole(role: string) {
+  if (role === 'USER' || role === 'ADMIN') {
+    return true
+  }
+  return false
+}
+
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -29,6 +37,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: UserRole, // Literal values using enum
+      validate: [validateRole, 'Role has to be either USER or ADMIN'],
       default: UserRole.User, // Default value for the 'role' is a user
     },
     isActive: {
