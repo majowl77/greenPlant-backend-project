@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import bcrypt from 'bcrypt'
-import crypto from 'crypto'
-import nodemailer from 'nodemailer'
 
 import User from '../models/user'
 import ApiError from '../errors/ApiError'

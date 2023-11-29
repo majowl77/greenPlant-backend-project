@@ -85,7 +85,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
   // At this point, the user is authenticated
   res.status(200).json({
-    message: "Login successful!",
-    token: token
+    message: 'Login successful!',
+    token: token,
   })
 }

@@ -2,10 +2,11 @@ import express from 'express'
 
 import { deleteUser, getUsers, updateUser } from '../controllers/userController'
 import { acceptOrder, addNewOrder, updateOrder } from '../controllers/orderController'
+import { checkAuth } from '../middlewares/checkAuth'
 
 const router = express.Router()
 
-router.get('/admin/getAllUsers', getUsers)
+router.get('/admin/getAllUsers', checkAuth, getUsers)
 
 router.delete('/:userId', deleteUser)
 
