@@ -13,8 +13,6 @@ router.get('/', getOrders)
 
 router.get('/:orderId', getOrderById)
 
-router.post('/', addNewOrder)
-
 router.put('/:orderId', updateOrder)
 
 router.delete('/:orderId', deleteOrder)
