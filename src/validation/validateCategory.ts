@@ -8,7 +8,7 @@ export function validateCategory(req: Request, res: Response, next: NextFunction
     name: z
       .string()
       .min(3, { message: 'Category name must at least 3 characters' })
-      .max(30, { message: 'Category name must be 20 characters or less' }),
+      .max(20, { message: 'Category name must be 20 characters or less' }),
   })
 
   try {
