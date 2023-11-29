@@ -399,3 +399,11 @@ Method: PUT, Path: /api/users/admin/orders/updatestatus/6566f91758e69f503287c0f2
 Method: PUT, Path: /api/users/admin/orders/updatestatus/6566f91758e69f503287c0f2, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ١١:٤٤:٣٠ ص
 Method: PUT, Path: /api/users/admin/orders/updatestatus/65649a865b94cdd3acf69153, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ١١:٥٣:٣٨ ص
 Method: PUT, Path: /api/users/admin/orders/updatestatus/65649a865b94cdd3acf69153, Date: ١٥‏/٥‏/١٤٤٥ هـ, Time: ١١:٥٣:٤٣ ص
+Method: GET, Path: /api/auth//login, Date: 11/29/2023, Time: 12:54:29 PM
+Method: DELETE, Path: /api/users/6566537bdfb4af23979d27ec, Date: 11/29/2023, Time: 1:13:17 PM
+Method: POST, Path: /api/auth/register, Date: 11/29/2023, Time: 1:15:49 PM
+Method: POST, Path: /api/auth/register, Date: 11/29/2023, Time: 1:15:57 PM
+Method: GET, Path: /api/auth/activateUser/030f52d7fc7455dcd4553903431771e6c7ad5d0ebe9af02315623e3d8c683622, Date: 11/29/2023, Time: 1:16:23 PM
+Method: POST, Path: /api/auth//login, Date: 11/29/2023, Time: 1:16:34 PM
+Method: POST, Path: /api/auth//login, Date: 11/29/2023, Time: 1:16:41 PM
+Method: POST, Path: /api/auth//login, Date: 11/29/2023, Time: 1:17:12 PM
