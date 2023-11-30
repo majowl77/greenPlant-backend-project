@@ -22,7 +22,10 @@ export const getOrderById = async (req: Request, res: Response, next: NextFuncti
   try {
     const { orderId } = req.params
     const order = await Order.findById(orderId)
-    res.json(order)
+    if (!order) {
+      return next(ApiError.notFound('The order cannot be found'))
+    }
+    res.status(200).json(order)
   } catch (error: any) {
     next(ApiError.notFound(error.message))
   }
@@ -41,6 +44,7 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
 
   //Preparations:
   //create cart model
+
   try {
     const userId = req.params.userId
     const productId = req.body.productId
@@ -62,6 +66,7 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
           userId,
           totalPrice: existingProduct.price,
         })
+        console.log('🚀 ~ file: orderController.ts:69 ~ addToCart ~ cart:', cart)
 
         await cart.save()
         res.status(200).json({ msg: 'cart created successfully', cart })
@@ -71,13 +76,28 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
     } else {
       //..push to products and accumulate the total price
       const cart = await Cart.findOneAndUpdate(
-        { user: userId },
+        { _id: cartId },
         { $addToSet: { products: productId } }, // Use $addToSet to avoid duplicate product IDs
         { new: true, upsert: true } // Set upsert to true to create a new cart if it doesn't exist
       )
+      res.status(200).json({
+        message: 'Product added to the cart successfully',
+        cart,
+      })
     }
   } catch (error: any) {
     next(ApiError.badRequest(error.message))
+  }
+}
+
+export const deleteCart = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { cartId } = req.params
+
+    await Cart.deleteOne({ _id: cartId })
+    res.status(204).send()
+  } catch (error: any) {
+    next(ApiError.badRequest("Order Id is invailed or ca't delete the order"))
   }
 }
 
@@ -153,7 +173,7 @@ export const acceptOrder = async (req: Request, res: Response, next: NextFunctio
   }
 }
 
-export const updateOrder = async (req: Request, res: Response, next: NextFunction) => {
+export const updateOrderStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const orderId = req.params.orderId
 
@@ -189,14 +209,13 @@ export const updateOrder = async (req: Request, res: Response, next: NextFunctio
   }
 }
 
-export const deleteOrder = (req: Request, res: Response, next: NextFunction) => {
+export const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { orderId } = req.body
+    const { orderId } = req.params
 
-    const deletedOrder = Order.findOneAndDelete(orderId)
-
-    res.status(201).json(deletedOrder)
+    await Order.deleteOne({ _id: orderId })
+    res.status(204).send()
   } catch (error: any) {
-    next(ApiError.notFound(error.message))
+    next(ApiError.badRequest("Order Id is invailed or ca't delete the order"))
   }
 }
