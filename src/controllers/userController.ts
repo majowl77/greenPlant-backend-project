@@ -21,7 +21,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params
-  const { firstName, lastName, email, password } = req.body
+  const { firstName, lastName, email, password } = req.validatedUserUpdate || {}
 
   // Validate the user
   if (!userId) {

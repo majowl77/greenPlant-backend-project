@@ -33,3 +33,12 @@ export type ProductDocument = Document & {
   variants: string[]
   sizes: string[]
 }
+
+export type DecodedUser = {
+  userID: string
+  email: string
+  role: Role
+  iat: number
+  exp: number
+}
+export type Role = 'USER' | 'ADMIN'

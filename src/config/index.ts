@@ -11,6 +11,6 @@ export const dev = {
     domain: process.env.EMAIL_ACTIVATION_DOMAIN,
   },
   auth: {
-    accessToken: process.env.ACCESS_TOKEN,
+    secretToken: process.env.SECRET_TOKEN,
   },
 }

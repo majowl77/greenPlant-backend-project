@@ -40,11 +40,6 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
         return
       }
 
-      // Check if name length is valid
-      if (name.length < 3 || name.length > 20) {
-        next(ApiError.badRequest('Category name must be between 3 and 20 characters.'))
-        return
-      }
       const category = new Category({
         name,
       })
@@ -53,7 +48,6 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
 
       res.status(201).json({
         status: true,
-        name,
         category,
       })
     } catch (error) {

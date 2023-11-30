@@ -1,21 +1,22 @@
 import express from 'express'
-const router = express.Router()
 
 import {
   deleteOrder,
   getOrderById,
   getOrders,
-  updateOrder,
+  updateOrderStatus,
 } from '../controllers/orderController'
+import { checkAuth } from '../middlewares/checkAuth'
+import { checkRole } from '../middlewares/checkRole'
+
+const router = express.Router()
 
 router.get('/', getOrders)
 
 router.get('/:orderId', getOrderById)
 
-router.put('/:orderId', updateOrder)
+router.put('/:orderId', updateOrderStatus)
 
-router.delete('/:orderId', deleteOrder)
-
-
+router.delete('/:orderId', checkAuth, checkRole('ADMIN'), deleteOrder)
 
 export default router

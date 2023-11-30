@@ -38,22 +38,26 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  // create a new instant form the schema and provied the properites to it
-  const user = new User({
-    firstName,
-    lastName,
-    email,
-    password: hashedPassword,
-    activationToken,
-  })
+  try {
+    // create a new instant form the schema and provied the properites to it
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      activationToken,
+    })
 
-  await sendActivationEmail(email, activationToken, firstName)
-  // save it to the database
-  await user.save()
-  res.status(201).json({
-    msg: 'Your registration was successful!. Check your email to activate your account ',
-    user,
-  })
+    await sendActivationEmail(email, activationToken, firstName)
+    // save it to the database
+    await user.save()
+    res.status(201).json({
+      msg: 'Your registration was successful!. Check your email to activate your account ',
+      user,
+    })
+  } catch (error) {
+    next(ApiError.badRequest('Something went wrong with the registeration proccess'))
+  }
 }
 
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -61,7 +65,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
   // find the user uing its email
   const existingUser = await User.findOne({ email })
-  if (!existingUser) {
+  if (!existingUser || existingUser.isActive !== true) {
     return next(ApiError.badRequest('Invalid email or account is not activated!'))
   }
   // Check if the entered password matches the stored hashed password
@@ -69,22 +73,25 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
   if (!passwordMatch) {
     return next(ApiError.unauthorized('Invalid email or password'))
   }
-
+  // if (existingUser.isActive !== true) {
+  //   return next(ApiError.unauthorized('Account is not activated!'))
+  // }
   const token = jwt.sign(
     {
-      userID: existingUser.id,
+      userID: existingUser._id,
       email: existingUser.email,
       role: existingUser.role,
     },
-    dev.auth.accessToken as string,
-    { expiresIn: '24h' }
+    dev.auth.secretToken as string,
+    {
+      expiresIn: '24h',
+      algorithm: 'HS256',
+    }
   )
 
   // At this point, the user is authenticated
   res.status(200).json({
-    _id: existingUser._id,
-    email: existingUser.email,
-    firstName: existingUser.firstName,
-    lastName: existingUser.lastName,
+    message: 'Login successful!',
+    token: token,
   })
 }
