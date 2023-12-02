@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+
 import { UserDocument } from '../types'
 
 export enum UserRole {

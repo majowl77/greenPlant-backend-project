@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose'
-import { OrderDocument } from '../types.js'
-import { orderStatus } from '../constants.js'
+
+import { OrderDocument } from '../types'
+import { orderStatus } from '../constants'
 
 // Orders: id, productId, userId, purchasedAt
 
@@ -20,7 +21,7 @@ const orderSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    enum:  orderStatus, //order statuses
+    enum: orderStatus, //order statuses
     default: 'pending',
   },
 })

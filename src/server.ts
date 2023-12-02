@@ -35,12 +35,7 @@ mongoose
   .catch((err) => {
     console.log('MongoDB connection error, ', err)
   })
-app.use('/hello', (req, res) => {
-  res.json({
-    msg: 'hello',
-  })
-  res.end()
-})
+
 app.listen(PORT, () => {
   console.log('Server running http://localhost:' + PORT)
 })

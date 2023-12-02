@@ -66,7 +66,6 @@ export const addToCart = async (req: Request, res: Response, next: NextFunction)
           userId,
           totalPrice: existingProduct.price,
         })
-        console.log('🚀 ~ file: orderController.ts:69 ~ addToCart ~ cart:', cart)
 
         await cart.save()
         res.status(200).json({ msg: 'cart created successfully', cart })

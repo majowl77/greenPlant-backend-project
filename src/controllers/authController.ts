@@ -53,7 +53,6 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     await user.save()
     res.status(201).json({
       msg: 'Your registration was successful!. Check your email to activate your account ',
-      user,
     })
   } catch (error) {
     next(ApiError.badRequest('Something went wrong with the registeration proccess'))
@@ -73,9 +72,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
   if (!passwordMatch) {
     return next(ApiError.unauthorized('Invalid email or password'))
   }
-  // if (existingUser.isActive !== true) {
-  //   return next(ApiError.unauthorized('Account is not activated!'))
-  // }
+
   const token = jwt.sign(
     {
       userID: existingUser._id,

@@ -12,7 +12,6 @@ export function checkAuth(req: Request, res: Response, next: NextFunction) {
   if (token) {
     try {
       const decodedUser = jwt.verify(token, dev.auth.secretToken as string) as DecodedUser
-      console.log('🚀 ~ file: checkAuth.ts:13 ~ checkAuth ~ decodedUser:', decodedUser)
       req.decodedUser = decodedUser
       next()
     } catch (error) {
@@ -22,5 +21,3 @@ export function checkAuth(req: Request, res: Response, next: NextFunction) {
   }
   next(ApiError.forbidden('Token is requierd'))
 }
-
-

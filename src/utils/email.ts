@@ -6,6 +6,7 @@ import { dev } from '../config'
 export function generateActivationToken() {
   return crypto.randomBytes(32).toString('hex')
 }
+
 // service to send emails in your behalf i.e. Node.js library for sending emails
 const transporter = nodemailer.createTransport({
   service: 'gmail',

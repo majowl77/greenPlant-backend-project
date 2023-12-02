@@ -29,7 +29,6 @@ export function validateProduct(req: Request, res: Response, next: NextFunction)
       next(ApiError.badRequest(`Validation error: ${validationErrorMessages.join(', ')}`))
       return
     }
-    // Handle other types of errors here...
 
     next(ApiError.internal('Something went wrong'))
   }

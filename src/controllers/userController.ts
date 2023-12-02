@@ -5,7 +5,7 @@ import User from '../models/user'
 import ApiError from '../errors/ApiError'
 
 export const getUsers = async (req: Request, res: Response) => {
-  const users = await User.find()
+  const users = await User.find({}, { password: 0 })
   res.status(200).json({
     users,
   })
@@ -21,15 +21,12 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params
-  const { firstName, lastName, email, password } = req.validatedUserUpdate || {}
+  const { firstName, lastName } = req.validatedUserUpdate || {}
 
   // Validate the user
   if (!userId) {
     return ApiError.badRequest('Invalid user ID')
   }
-
-  // Hash the password if provided
-  const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined
 
   // Find and update the user in one step
   const updatedUser = await User.findByIdAndUpdate(
@@ -38,8 +35,6 @@ export const updateUser = async (req: Request, res: Response) => {
       $set: {
         firstName,
         lastName,
-        email,
-        password: hashedPassword,
       },
     },
     // Save the updated user to the database

@@ -1,8 +1,6 @@
 import mongoose, { Document } from 'mongoose'
 
-export type CategoryDocument = Document & {
-  name: string
-}
+import { CategoryDocument } from '../types'
 
 const categorySchema = new mongoose.Schema(
   {

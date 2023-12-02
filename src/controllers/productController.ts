@@ -1,6 +1,7 @@
+import { NextFunction, Request, Response } from 'express'
+
 import ApiError from '../errors/ApiError'
 import Product from '../models/product'
-import { NextFunction, Request, Response } from 'express'
 
 type Filter = {
   variants?: string
@@ -47,7 +48,7 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
       .sort(sortOptions)
       .skip((pageNumber - 1) * perPage)
       .limit(perPage)
-    // .populate('category')
+      .populate('category')
     // Use $regex to search for documents where the 'name' field
     // matches the specified pattern (provided by the 'search' variable),
     // and $options: 'i' ensures a case-insensitive match.

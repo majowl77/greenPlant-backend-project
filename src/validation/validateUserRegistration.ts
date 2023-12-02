@@ -22,7 +22,6 @@ export function validateUserRegistration(req: Request, res: Response, next: Next
       next(ApiError.badRequest(`Missing or invalid fields: ${missingFields.join(', ')}`))
       return
     }
-    // Handle other types of errors here...
     next(ApiError.internal('Something went wrong while creating the user.'))
   }
 }

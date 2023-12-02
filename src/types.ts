@@ -1,7 +1,9 @@
 import mongoose, { Document } from 'mongoose'
+
 import { orderStatus } from './constants'
 
 export type OrderStatus = keyof typeof orderStatus
+
 export type OrderDocument = Document & {
   name: string
   products: mongoose.Schema.Types.ObjectId[]
@@ -41,4 +43,10 @@ export type DecodedUser = {
   iat: number
   exp: number
 }
+
 export type Role = 'USER' | 'ADMIN'
+
+export type CartDocument = Document & {
+  name: string
+  products: string[]
+}

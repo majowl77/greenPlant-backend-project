@@ -22,7 +22,6 @@ export function validateCategory(req: Request, res: Response, next: NextFunction
       return
     }
 
-    // Handle other types of errors
     console.error(error)
     res.status(500).json({ message: 'Internal Server Error' })
   }

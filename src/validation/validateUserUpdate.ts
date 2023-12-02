@@ -9,8 +9,6 @@ export function validateUserUpdate(req: Request, res: Response, next: NextFuncti
     .object({
       firstName: z.string().min(3).max(50).optional(),
       lastName: z.string().min(3).max(50).optional(),
-      email: z.string().email().optional(),
-      password: z.string().min(8).optional(),
     })
     .optional()
 
@@ -25,7 +23,6 @@ export function validateUserUpdate(req: Request, res: Response, next: NextFuncti
       next(ApiError.badRequest(`Missing or invalid fields: ${missingFields.join(', ')}`))
       return
     }
-    // Handle other types of errors here...
-    next(ApiError.internal('Something went wrong while creating the user.'))
+    next(ApiError.internal('Something went wrong while updating the user.'))
   }
 }

@@ -18,7 +18,6 @@ export function validateUserLogin(req: Request, res: Response, next: NextFunctio
       const missingFields = error.errors.map((e) => e.path.join('.'))
       return next(ApiError.badRequest(`Missing or invalid fields: ${missingFields.join(', ')}`))
     }
-    // Handle other types of errors here...
     return next(ApiError.internal('Something went wrong while validating login data.'))
   }
 }
