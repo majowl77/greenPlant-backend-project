@@ -383,3 +383,7 @@ Method: POST, Path: /api/products/, Date: 11/30/2023, Time: 9:31:08 AM
 Method: PUT, Path: /api/products/65682c2c3ae0d7886453038c, Date: 11/30/2023, Time: 9:31:20 AM
 Method: GET, Path: /api/products, Date: 11/30/2023, Time: 9:31:42 AM
 Method: DELETE, Path: /api/products/65682c2c3ae0d7886453038c, Date: 11/30/2023, Time: 9:31:51 AM
+Method: PUT, Path: /api/users/profile/65682b133ae0d78864530369, Date: 12/3/2023, Time: 9:24:33 AM
+Method: PUT, Path: /api/users/profile/65682b133ae0d78864530369, Date: 12/3/2023, Time: 9:24:51 AM
+Method: PUT, Path: /api/users/profile/65682b133ae0d78864530369, Date: 12/3/2023, Time: 9:24:57 AM
+Method: PUT, Path: /api/users/profile/65682b133ae0d78864530369, Date: 12/3/2023, Time: 10:35:52 AM
