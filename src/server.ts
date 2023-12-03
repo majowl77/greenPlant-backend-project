@@ -39,3 +39,5 @@ mongoose
 app.listen(PORT, () => {
   console.log('Server running http://localhost:' + PORT)
 })
+
+export default app
