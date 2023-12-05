@@ -3,5 +3,5 @@ dist
 .env
 src/logs/requests.txt
 .DS_Store
-src/config
+
 
