@@ -3,5 +3,6 @@ dist
 .env
 src/logs/requests.txt
 .DS_Store
+.vscode
 
 
