@@ -62,7 +62,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.validateLoginUser
 
-  // find the user uing its email
+  // find the user using its email
   const existingUser = await User.findOne({ email })
   if (!existingUser || existingUser.isActive !== true) {
     return next(ApiError.badRequest('Invalid email or account is not activated!'))

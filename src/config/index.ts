@@ -13,4 +13,5 @@ export const dev = {
   auth: {
     secretToken: process.env.SECRET_TOKEN,
   },
+  environment: process.env.NODE_ENV
 }

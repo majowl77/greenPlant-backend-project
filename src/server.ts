@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
-
+import cors, { CorsOptions } from 'cors'
 import usersRouter from './routers/usersRoutes'
 import authRouter from './routers/authRoutes'
 import productsRouter from './routers/productsRoutes'
@@ -15,8 +15,27 @@ config()
 const app = express()
 const PORT = dev.app.port || 8080
 const URL = dev.app.db as string
+const environment = dev.environment || 'development'
 
-if (process.env.NODE_ENV === 'development') {
+const whitelist = ['myOwnDomainFrontend.com']
+if (environment === 'development') {
+  whitelist.push('http://localhost:3000')
+  console.log('🚀 ~ file: server.ts:22 ~ whitelist:', whitelist)
+}
+
+const corsOptions: CorsOptions = {
+  origin: function (origin, callback) {
+    if (origin && whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+}
+
+app.use(cors(corsOptions))
+
+if (environment === 'development') {
   app.use(myLogger)
 }
 app.use(express.urlencoded({ extended: true }))
@@ -34,6 +53,7 @@ app.use('/', (req, res) => {
     msg: ' hello, majedah is here',
   })
 })
+
 mongoose
   .connect(URL)
   .then(() => {
