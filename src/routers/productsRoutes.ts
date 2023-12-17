@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 
 import {
   createNewProduct,
@@ -25,11 +25,9 @@ router.put('/:productId', checkAuth, checkRole('ADMIN'), updateProductById)
 
 router.delete('/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
 
-// i need this later to work on s3 and test it 
+// i need this later to work on s3 and test it
 // router.post('/upload', uploadImage, (req: Request, res: Response) => {
 //   res.json({ msg: 'product is created ' })
 // })
-//Implement a route to handle GET requests with query parameters for filtering items
-//or products based on specific criteria (e.g., by category, price range).
 
 export default router
