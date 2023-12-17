@@ -1,5 +1,7 @@
+import { ZodError } from 'zod'
+
 class ApiError {
-  constructor(public code: number, public message: string) {
+  constructor(public code: number, public message: string | ZodError['errors']) {
     this.code = code
     this.message = message
   }
@@ -20,6 +22,9 @@ class ApiError {
   }
   static forbidden(message: string) {
     return new ApiError(403, message)
+  }
+  static badRequestValidation(msg: ZodError['errors']) {
+    return new ApiError(400, msg)
   }
 }
 

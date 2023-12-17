@@ -81,19 +81,20 @@ export const getProductById = async (req: Request, res: Response) => {
 }
 
 export const createNewProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, description, quantity, image, price, category, variants, sizes } = req.body
+  const { name, description, quantity, price, categories, variants, sizes } = req.body
+  const fileName = req.fileName
 
-  if (!name || !description || !image || !price || !category) {
-    next(ApiError.badRequest('Name, Description, image, price and category are requried'))
+  if (!name || !description || !price || !categories) {
+    next(ApiError.badRequest('Name, Description, price and category are requried'))
     return
   }
   const product = new Product({
     name,
     description,
     quantity,
-    image,
+    image: `public/images/${fileName}`,
     price,
-    category,
+    categories,
     variants,
     sizes,
   })

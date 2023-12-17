@@ -85,10 +85,11 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       algorithm: 'HS256',
     }
   )
-
+  const userWithoutPassword = await User.findOne({ email }).select('-password')
   // At this point, the user is authenticated
   res.status(200).json({
-    message: 'Login successful!',
+    message: "you've successfully Logged in!",
     token: token,
+    user: userWithoutPassword,
   })
 }

@@ -17,10 +17,9 @@ const PORT = dev.app.port || 8080
 const URL = dev.app.db as string
 const environment = dev.environment || 'development'
 
-const whitelist = ['myOwnDomainFrontend.com']
+const whitelist = ['myOwnDomainFrontend.com', 'insomnia://']
 if (environment === 'development') {
   whitelist.push('http://localhost:3000')
-  console.log('🚀 ~ file: server.ts:22 ~ whitelist:', whitelist)
 }
 
 const corsOptions: CorsOptions = {
@@ -33,7 +32,7 @@ const corsOptions: CorsOptions = {
   },
 }
 
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 
 if (environment === 'development') {
   app.use(myLogger)
@@ -48,11 +47,11 @@ app.use('/api/categories', categoryRouter)
 
 app.use(apiErrorHandler)
 
-app.use('/', (req, res) => {
-  res.json({
-    msg: ' hello, majedah is here',
-  })
-})
+// app.use('/', (req, res) => {
+//   res.json({
+//     msg: ' hello, majedah is here',
+//   })
+// })
 
 mongoose
   .connect(URL)
