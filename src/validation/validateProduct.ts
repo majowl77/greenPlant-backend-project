@@ -11,32 +11,73 @@ export function validateProduct(req: Request, res: Response, next: NextFunction)
       ? zod
           .string()
           .min(10, { message: 'Product description must at least 3 characters' })
-          .max(500, { message: 'Product description must be 100 characters or less' })
+          .max(400, { message: 'Product description must be 400 characters or less' })
           .optional()
       : zod
           .string()
           .min(10, { message: 'Product description must at least 3 characters' })
-          .max(100, { message: 'Product description must be 100 characters or less' }),
+          .max(400, { message: 'Product description must be 400 characters or less' }),
     quantity: isUpdated
-      ? zod.number().nonnegative({ message: 'Quantity must be nonnegative number' }).optional()
-      : zod.number().nonnegative({ message: 'Quantity must be nonnegative number' }),
-    image: zod.string().min(1, { message: 'Product image is required' }),
+      ? zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return Number(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.number().nonnegative({ message: 'Quantity must be nonnegative number' }).optional())
+      : zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return Number(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.number().nonnegative({ message: 'Quantity must be nonnegative number' })),
     price: isUpdated
-      ? zod.number().nonnegative({ message: 'Product price must be nonnegative number' }).optional()
-      : zod.number().nonnegative({ message: 'Product price must be nonnegative number' }),
+      ? zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return Number(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.number().nonnegative({ message: 'Product price must be nonnegative number' }).optional())
+      : zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return Number(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.number().nonnegative({ message: 'Product price must be nonnegative number' })),
     categories: isUpdated
-      ? zod.array(zod.string()).min(1, { message: 'Please enter at least one category' }).optional()
-      : zod.array(zod.string()).min(1, { message: 'Please enter at least one category' }),
-    variants: isUpdated
       ? zod.array(zod.string()).min(1, { message: 'Please enter at least one variant' }).optional()
-      : zod.array(zod.string()).min(1, { message: 'Please enter at least one variant' }),
+      : zod.array(zod.string()).min(1, { message: 'Please enter at least one category' }),
+
+    variants: isUpdated
+      ? zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return JSON.parse(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.array(zod.string()).min(1, { message: 'Please enter at least one size' }).optional())
+      : zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return JSON.parse(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.array(zod.string()).min(1, { message: 'Please enter at least one size' })),
     sizes: isUpdated
-      ? zod.array(zod.string()).min(1, { message: 'Please enter at least one size' }).optional()
-      : zod.array(zod.string()).min(1, { message: 'Please enter at least one size' }),
+      ? zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return JSON.parse(val.replace(/^['"]|['"]$/g, ''))
+          }
+          return val
+        }, zod.array(zod.string()).min(1, { message: 'Please enter at least one size' }).optional())
+      : zod.preprocess((val) => {
+          if (typeof val === 'string') {
+            return JSON.parse(val)
+          }
+          return val
+        }, zod.array(zod.string()).min(1, { message: 'Please enter at least one size' })),
   })
 
   try {
-    schema.parse(req.body)
+    const validatedProduct = schema.parse(req.body)
+    req.validatedProduct = validatedProduct
     next()
   } catch (error) {
     const err = error
@@ -44,7 +85,6 @@ export function validateProduct(req: Request, res: Response, next: NextFunction)
       next(ApiError.badRequestValidation(err.errors))
       return
     }
-
     next(ApiError.internal('Something went wrong'))
   }
 }

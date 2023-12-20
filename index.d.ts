@@ -25,5 +25,14 @@ declare namespace Express {
       exp: number
     }
     fileName: string
+    validatedProduct?: {
+      name?: string | undefined
+      description?: string | undefined
+      quantity?: number | undefined
+      price?: number | undefined
+      categories?: string[] | undefined
+      variants?: string[] | undefined
+      sizes?: string[] | undefined
+    }
   }
 }

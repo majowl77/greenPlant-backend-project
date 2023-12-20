@@ -15,15 +15,22 @@ import { validateProduct } from '../validation/validateProduct'
 
 const router = express.Router()
 
-router.get('/', filterProductByVariantstoSize, getAllProducts)
+router.get('/', getAllProducts)
 
 router.get('/:productId', getProductById)
 
-router.post('/', checkAuth, checkRole('USER'), uploadImage, validateProduct, createNewProduct)
+router.post('/', checkAuth, checkRole('ADMIN'), uploadImage, validateProduct, createNewProduct)
 
-router.put('/:productId', checkAuth, checkRole('ADMIN'), updateProductById)
+router.put(
+  '/:productId',
+  checkAuth,
+  checkRole('ADMIN'),
+  uploadImage,
+  validateProduct,
+  updateProductById
+)
 
-router.delete('/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
+router.delete('/deleteProduct/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
 
 // i need this later to work on s3 and test it
 // router.post('/upload', uploadImage, (req: Request, res: Response) => {

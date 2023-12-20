@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { deleteUser, getUsers, updateUser } from '../controllers/userController'
+import { deleteUser, getUsers, grantRoleToUsers, updateUser } from '../controllers/userController'
 import {
   acceptOrder,
   addNewOrder,
@@ -27,6 +27,8 @@ router.post('/addToCart/:userId', addToCart)
 router.delete('/deleteFromCart/:cartId', deleteCart)
 
 router.put('/admin/orders/:orderId', checkAuth, checkRole('ADMIN'), acceptOrder)
+
+router.put('/admin/role', checkAuth, checkRole('ADMIN'), grantRoleToUsers)
 
 router.put('/admin/orders/updatestatus/:orderId', checkAuth, checkRole('ADMIN'), updateOrderStatus)
 

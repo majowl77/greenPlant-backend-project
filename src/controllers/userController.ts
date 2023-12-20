@@ -13,10 +13,15 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
   const { userId } = req.params
-  await User.deleteOne({
-    _id: userId,
-  })
-  res.status(204).send()
+  try {
+    await User.deleteOne({
+      _id: userId,
+    })
+    res.status(204).send()
+    console.log('it deleted it')
+  } catch (error) {
+    res.json({ msg: 'delete user faild' })
+  }
 }
 
 export const updateUser = async (req: Request, res: Response) => {
@@ -48,5 +53,19 @@ export const updateUser = async (req: Request, res: Response) => {
   res.status(200).json({
     msg: 'User updated successfully',
     user: updatedUser,
+  })
+}
+
+export const grantRoleToUsers = async (req: Request, res: Response) => {
+  const userId = req.body.userId
+  const role = req.body.role
+
+  const user = await User.findByIdAndUpdate({ _id: userId }, { role }, { new: true }).select([
+    '-password',
+    '-activationToken',
+  ])
+
+  res.status(200).json({
+    user,
   })
 }

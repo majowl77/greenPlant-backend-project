@@ -36,7 +36,7 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
   const filters = req.filters || {}
 
   const pageNumber: number = Number(req.query.pageNumber) || 1
-  const perPage: number = Number(req.query.perPage) || 2
+  const perPage: number = Number(req.query.perPage) || 4
   const sortField: string = (req.query.sortField as string) || 'price' // Explicitly assert type, we can sort by name or price or other
   const sortOrder: SortOrder = req.query.sortOrder === 'desc' ? -1 : 1
   const sortOptions: { [key: string]: SortOrder } = { [sortField]: sortOrder }
@@ -48,7 +48,7 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
       .sort(sortOptions)
       .skip((pageNumber - 1) * perPage)
       .limit(perPage)
-      .populate('category')
+      .populate('categories')
     // Use $regex to search for documents where the 'name' field
     // matches the specified pattern (provided by the 'search' variable),
     // and $options: 'i' ensures a case-insensitive match.
@@ -63,7 +63,7 @@ export const getAllProducts = async (req: CustomRequest, res: Response) => {
       products,
     })
   } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' })
+    res.status(500).json({ message: 'Internal Server Error', error: error })
   }
 }
 
@@ -81,26 +81,32 @@ export const getProductById = async (req: Request, res: Response) => {
 }
 
 export const createNewProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, description, quantity, price, categories, variants, sizes } = req.body
+  const { name, description, quantity, price, categories, variants, sizes } =
+    req.validatedProduct || {}
   const fileName = req.fileName
+  try {
+    if (!name || !description || !price || !categories) {
+      next(ApiError.badRequest('Name, Description, price and category are requried'))
+      return
+    }
 
-  if (!name || !description || !price || !categories) {
-    next(ApiError.badRequest('Name, Description, price and category are requried'))
-    return
+    const product = new Product({
+      name,
+      description,
+      quantity,
+      image: `public/images/${fileName}`,
+      price,
+      categories,
+      variants,
+      sizes,
+    })
+    console.log('🚀 ~ file: productController.ts:102 ~ createNewProduct ~ product:', product)
+
+    await product.save()
+    res.status(201).json({ product, msg: 'product is created successfully' })
+  } catch (error) {
+    res.status(400).json({ error, msg: 'product is not created ' })
   }
-  const product = new Product({
-    name,
-    description,
-    quantity,
-    image: `public/images/${fileName}`,
-    price,
-    categories,
-    variants,
-    sizes,
-  })
-
-  await product.save()
-  res.status(201).json(product)
 }
 
 export const deleteProductById = async (req: Request, res: Response) => {
@@ -113,27 +119,30 @@ export const deleteProductById = async (req: Request, res: Response) => {
 }
 
 export const updateProductById = async (req: Request, res: Response) => {
-  const newName = req.body.name
-  const newDescription = req.body.description
-  const newQuantity = req.body.quantity
-  const newImage = req.body.image
-  const newPrice = req.body.price
-  const newCategory = req.body.category
-  const newVariant = req.body.variants
-  const newSize = req.body.sizes
+  // const newName = req.body.name
+  // const newDescription = req.body.description
+  // const newQuantity = req.body.quantity
+  // const newImage = req.body.image
+  // const newPrice = req.body.price
+  // const newCategory = req.body.category
+  // const newVariant = req.body.variants
+  // const newSize = req.body.sizes
+  const { name, description, quantity, price, categories, variants, sizes } =
+    req.validatedProduct || {}
   const productId = req.params.productId
+  const fileName = req.fileName
 
   const newProduct = await Product.findByIdAndUpdate(
-    productId,
+    { _id: productId },
     {
-      name: newName,
-      description: newDescription,
-      quantity: newQuantity,
-      image: newImage,
-      price: newPrice,
-      category: newCategory,
-      variants: newVariant,
-      sizes: newSize,
+      name,
+      description,
+      quantity,
+      image: fileName,
+      price,
+      categories,
+      variants,
+      sizes,
     },
     {
       new: true,

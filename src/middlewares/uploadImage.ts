@@ -19,12 +19,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 function uloadImageChecker(req: Request, res: Response, next: NextFunction) {
-  console.log('🚀 ~ file: uploadImage.ts:23 ~ uloadImageChecker ~ req.file:', req.file)
-  if (!req.file) {
-    next(ApiError.badRequest('image is required!'))
-    return
+  if (req.method === 'POST') {
+    if (!req.file) {
+      next(ApiError.badRequest('image is required!'))
+      return
+    }
+    req.fileName = req.file.filename
+  } else if (req.method === 'PUT') {
+    if (req.file) {
+      req.fileName = req.file.filename
+
+    } else if (req.body.image) {
+      req.fileName = req.body.image
+      
+    } else {
+      next(
+        ApiError.badRequest(
+          'Either upload a new image or provide the existing image URL for updating a product!'
+        )
+      )
+      return
+    }
   }
-  req.fileName = req.file.filename
 
   next()
 }

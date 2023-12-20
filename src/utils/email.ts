@@ -26,7 +26,7 @@ export async function sendActivationEmail(
   const htmlEmailTemplate = `<section style="max-width: 2xl; padding: 6px 8px; margin: auto; background-color: #eff6ef; dark:bg-#335e33-900">
     <header>
         <a href="#">
-            <img style="width: auto; height: 7px; sm-height: 8px;" src="https://merakiui.com/images/full-logo.svg" alt="">
+            <img style="width: auto; height: 7px; sm-height: 8px;" src="greenPlantLogo.png" alt="">
         </a>
     </header>
     
@@ -34,7 +34,7 @@ export async function sendActivationEmail(
         <h2 style="color: #335e33; dark-color: #335e33;">Hi ${firstName},</h2>
     
         <p style="margin-top: 2px; line-height: loose; color: #335e33; dark-color: #335e33;">
-        Thank you for choosing GreenOwls! <br>
+        Thank you for choosing GreenPlant! <br>
         Your account has been created. To activate your account and start shopping, click the button below.
         </p>
         
@@ -44,7 +44,7 @@ export async function sendActivationEmail(
         
         <p style="margin-top: 30px; color: #335e33; dark-color: #335e33;">
          Thanks,<br>
-         GreenOwls Team
+         GreenPlant Team
         </p>
     </main>
     
@@ -55,14 +55,14 @@ export async function sendActivationEmail(
             If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; hover-underline: underline; dark-color: blue-400;">unsubscribe</a> or <a href="#" style="color: blue-600; hover-underline: underline; dark-color: blue-400;">manage your email preferences</a>.
         </p>
     
-        <p style="margin-top: 3px; color: #335e33; dark-color: #335e33;">© ${new Date().getFullYear()}  GreenOwls. All Rights Reserved.</p>
+        <p style="margin-top: 3px; color: #335e33; dark-color: #335e33;">© ${new Date().getFullYear()}  GreenPlant. All Rights Reserved.</p>
     </footer>
     </section>`
 
   const mailOptions = {
     from: dev.email.user,
     to: userEmail,
-    subject: 'GreenOwls| Account Activation ',
+    subject: 'GreenPlant| Account Activation ',
     html: htmlEmailTemplate,
   }
   try {

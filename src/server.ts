@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { request } from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import cors, { CorsOptions } from 'cors'
@@ -17,7 +17,7 @@ const PORT = dev.app.port || 8080
 const URL = dev.app.db as string
 const environment = dev.environment || 'development'
 
-const whitelist = ['myOwnDomainFrontend.com', 'insomnia://']
+const whitelist = ['myOwnDomainFrontend.com', 'insomnia://', '*']
 if (environment === 'development') {
   whitelist.push('http://localhost:3000')
 }
@@ -31,8 +31,9 @@ const corsOptions: CorsOptions = {
     }
   },
 }
+console.log('🚀 ~ file: server.ts:28 ~ whitelist:', whitelist)
 
-// app.use(cors(corsOptions))
+app.use(cors(corsOptions))
 
 if (environment === 'development') {
   app.use(myLogger)
