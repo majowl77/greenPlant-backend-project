@@ -26,6 +26,9 @@ class ApiError {
   static badRequestValidation(msg: ZodError['errors']) {
     return new ApiError(400, msg)
   }
+  static badRegisterValidation(msg: ZodError['errors']) {
+    return new ApiError(400, msg)
+  }
 }
 
 export default ApiError

@@ -19,7 +19,7 @@ export function validateUserRegistration(req: Request, res: Response, next: Next
     if (error instanceof ZodError) {
       // Handle Zod validation error
       const missingFields = error.errors.map((e) => e.path.join('.'))
-      next(ApiError.badRequest(`Missing or invalid fields: ${missingFields.join(', ')}`))
+      next(ApiError.badRegisterValidation(error.errors))
       return
     }
     next(ApiError.internal('Something went wrong while creating the user.'))

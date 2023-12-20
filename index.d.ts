@@ -34,5 +34,8 @@ declare namespace Express {
       variants?: string[] | undefined
       sizes?: string[] | undefined
     }
+    validatedCategory: {
+      name: string
+    }
   }
 }

@@ -73,23 +73,30 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     return next(ApiError.unauthorized('Invalid email or password'))
   }
 
-  const token = jwt.sign(
-    {
-      userID: existingUser._id,
-      email: existingUser.email,
-      role: existingUser.role,
-    },
-    dev.auth.secretToken as string,
-    {
-      expiresIn: '24h',
-      algorithm: 'HS256',
-    }
-  )
-  const userWithoutPassword = await User.findOne({ email }).select('-password')
-  // At this point, the user is authenticated
-  res.status(200).json({
-    message: "you've successfully Logged in!",
-    token: token,
-    user: userWithoutPassword,
-  })
+  try {
+    const token = jwt.sign(
+      {
+        userID: existingUser._id,
+        email: existingUser.email,
+        role: existingUser.role,
+      },
+      dev.auth.secretToken as string,
+      {
+        expiresIn: '24h',
+        algorithm: 'HS256',
+      }
+    )
+    const userWithoutPassword = await User.findOne({ email }).select('-password')
+    // At this point, the user is authenticated
+
+    res.status(200).json({
+      message: "you've successfully Logged in!",
+      token: token,
+      user: userWithoutPassword,
+    })
+  } catch (error) {
+    res.status(400).json({
+      error,
+    })
+  }
 }
