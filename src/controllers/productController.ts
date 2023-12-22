@@ -1,67 +1,66 @@
 import { NextFunction, Request, Response } from 'express'
+import Category from '../models/category'
 
 import ApiError from '../errors/ApiError'
 import Product from '../models/product'
-
-type Filter = {
-  variants?: string
-  sizes?: string
-}
-
-interface CustomRequest extends Request {
-  filters?: Filter
-}
-
-export const filterProductByVariantstoSize = async (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  const filters: Filter = {}
-  const variants = req.query.variants
-  const sizes = req.query.sizes
-  if ((variants && typeof variants === 'string') || variants === 'string[]') {
-    filters.variants = variants
-  }
-  if (sizes && typeof sizes === 'string') {
-    filters.sizes = sizes
-  }
-  req.filters = filters
-  next()
-}
+import { findAllProducts } from '../services/productService'
 
 export type SortOrder = 1 | -1
 
-export const getAllProducts = async (req: CustomRequest, res: Response) => {
-  const filters = req.filters || {}
-
-  const pageNumber: number = Number(req.query.pageNumber) || 1
-  const perPage: number = Number(req.query.perPage) || 4
-  const sortField: string = (req.query.sortField as string) || 'price' // Explicitly assert type, we can sort by name or price or other
-  const sortOrder: SortOrder = req.query.sortOrder === 'desc' ? -1 : 1
-  const sortOptions: { [key: string]: SortOrder } = { [sortField]: sortOrder }
-  const search: string = (req.query.search as string) || ''
-
+export const getAllProducts = async (req: Request, res: Response) => {
+  let pageNumber: number = Number(req.query.pageNumber) || 1
+  console.log('🚀 ~ file: productController.ts:12 ~ getAllProducts ~ pageNumber:', pageNumber)
+  const initialPerPage: number = Number(req.query.perPage) || 3
+  const perPage: number = initialPerPage
+  const sortBy = req.query.sortBy?.toString()
+  const category = req.query.category?.toString()
+  const searchText = req.query.searchText?.toString() || ''
   try {
-    const products = await Product.find(filters)
-      .find({ name: { $regex: search, $options: 'i' } })
-      .sort(sortOptions)
+    const totalProducts = await Product.countDocuments()
+
+    const totalPages = Math.ceil(totalProducts / perPage)
+    pageNumber = Math.min(pageNumber, totalPages)
+
+    let sortQuery = {}
+    if (sortBy === 'newest') {
+      sortQuery = { createdAt: -1 }
+    } else if (sortBy === 'asc') {
+      sortQuery = { price: 1 }
+    } else if (sortBy === 'desc') {
+      sortQuery = { price: -1 }
+    }
+
+    const regexSearch = new RegExp(searchText, 'i')
+
+    // Construct the query
+    const query: Record<string, any> = {}
+
+    // Add category condition if category is provided and foundCategory is not null
+    // if (category && foundCategory) {
+    //   query.categories = { $in: [foundCategory._id] }
+    // }
+    if (category) {
+      query.categories = category // Assuming category is the ID
+    }
+    // Add searchText condition if searchText is provided
+    if (searchText) {
+      query.name = regexSearch
+    }
+    const products = await Product.find(query)
+      .populate('categories')
+      .sort(sortQuery)
       .skip((pageNumber - 1) * perPage)
       .limit(perPage)
-      .populate('categories')
-    // Use $regex to search for documents where the 'name' field
-    // matches the specified pattern (provided by the 'search' variable),
-    // and $options: 'i' ensures a case-insensitive match.
-    const totalProducts = await Product.countDocuments()
-    const totalPages = Math.ceil(totalProducts / perPage)
+    // .find(category ? { categories: { $in: foundCategory } } : {})
+    // .find({ name: { $regex: searchText, $options: 'i' } })
+    console.log('Total Products:', totalProducts)
+    console.log('Products Returned after Search:', products.length)
+    console.log('Calculated Total Pages:', totalPages)
+    if (products.length === 0) {
+      throw ApiError.notFound('There are no products')
+    }
 
-    res.json({
-      pageNumber,
-      perPage,
-      totalProducts,
-      totalPages,
-      products,
-    })
+    res.status(200).json({ products, totalPages, pageNumber, totalProducts })
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error: error })
   }
@@ -119,14 +118,6 @@ export const deleteProductById = async (req: Request, res: Response) => {
 }
 
 export const updateProductById = async (req: Request, res: Response) => {
-  // const newName = req.body.name
-  // const newDescription = req.body.description
-  // const newQuantity = req.body.quantity
-  // const newImage = req.body.image
-  // const newPrice = req.body.price
-  // const newCategory = req.body.category
-  // const newVariant = req.body.variants
-  // const newSize = req.body.sizes
   const { name, description, quantity, price, categories, variants, sizes } =
     req.validatedProduct || {}
   const productId = req.params.productId

@@ -27,6 +27,6 @@ router.post('/', checkAuth, checkRole('ADMIN'), validateCategory, createCategory
 // DELETE category by id
 router.delete('/:categoryId', checkAuth, checkRole('ADMIN'), deleteCategory)
 
-router.put('/:categoryId', validateCategory, updateCategory)
+router.put('/:categoryId', checkAuth, checkRole('ADMIN'), validateCategory, updateCategory)
 
 export default router

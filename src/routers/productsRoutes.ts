@@ -3,7 +3,6 @@ import express from 'express'
 import {
   createNewProduct,
   deleteProductById,
-  filterProductByVariantstoSize,
   getAllProducts,
   getProductById,
   updateProductById,

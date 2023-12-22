@@ -31,7 +31,6 @@ const corsOptions: CorsOptions = {
     }
   },
 }
-console.log('🚀 ~ file: server.ts:28 ~ whitelist:', whitelist)
 
 app.use(cors(corsOptions))
 
