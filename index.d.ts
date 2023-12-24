@@ -37,5 +37,12 @@ declare namespace Express {
     validatedCategory: {
       name: string
     }
+    validatedRestPassword: {
+      password: string
+      forgotPasswordCode: string 
+    }
+    ForgotPasswordUser: {
+      email: string
+    }
   }
 }

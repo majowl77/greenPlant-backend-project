@@ -1,18 +1,16 @@
 import { NextFunction, Request, Response } from 'express'
-import mongoose, { Types } from 'mongoose'
 
+import Cart from '../models/cart'
 import ApiError from '../errors/ApiError'
 import Order from '../models/order'
-import User from '../models/user'
-import Product from '../models/product'
-import products from '../routers/productsRoutes'
 import { orderStatus } from '../constants'
-import Cart from '../models/cart'
+import product from '../models/product'
+import { deleteCart } from '../services/cartServices'
 
 export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const orders = await Order.find()
-    res.json(orders)
+    const orders = await Order.find().populate('products.product')
+    res.status(200).json(orders)
   } catch (error: any) {
     next(ApiError.notFound(error.message))
   }
@@ -31,113 +29,35 @@ export const getOrderById = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-export const addToCart = async (req: Request, res: Response, next: NextFunction) => {
-  //WORKFLOW:
-  // cart schema {userId, [{'productID', 'quantity'}], total price }
-  //cart route
-  //cart controller
-  //post method i guess
-  //the cart is empty array at the begginig
-  // add products (if possible display info) to the cart and quantity of each product default:1
-  // calculate the  total price of products
-  //when checkout automatically create new order and decrease the products inStock depinding on quantity of each product in the cart
-
-  //Preparations:
-  //create cart model
-
-  try {
-    const userId = req.params.userId
-    const productId = req.body.productId
-    const cartId = req.body.cartId
-
-    const user = await User.findById(userId)
-
-    if (!user) {
-      next(ApiError.notFound(`Product with ID ${userId} not found.`))
-      return
-    }
-
-    if (!cartId) {
-      const existingProduct = await Product.findById(productId)
-
-      if (existingProduct) {
-        const cart = new Cart({
-          products: [productId],
-          userId,
-          totalPrice: existingProduct.price,
-        })
-
-        await cart.save()
-        res.status(200).json({ msg: 'cart created successfully', cart })
-      } else {
-        res.status(404).json({ msg: 'product not found' })
-      }
-    } else {
-      //..push to products and accumulate the total price
-      const cart = await Cart.findOneAndUpdate(
-        { _id: cartId },
-        { $addToSet: { products: productId } }, // Use $addToSet to avoid duplicate product IDs
-        { new: true, upsert: true } // Set upsert to true to create a new cart if it doesn't exist
-      )
-      res.status(200).json({
-        message: 'Product added to the cart successfully',
-        cart,
-      })
-    }
-  } catch (error: any) {
-    next(ApiError.badRequest(error.message))
-  }
-}
-
-export const deleteCart = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { cartId } = req.params
-
-    await Cart.deleteOne({ _id: cartId })
-    res.status(204).send()
-  } catch (error: any) {
-    next(ApiError.badRequest("Order Id is invailed or ca't delete the order"))
-  }
-}
-
 export const addNewOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { products, userId } = req.body
+    const { cartId } = req.body
+    console.log('🚀 ~ file: orderController.ts:35 ~ addNewOrder ~ req.body:', req.body)
+    console.log('🚀 ~ file: orderController.ts:35 ~ addNewOrder ~ cartId:', cartId)
+    const cart = await Cart.findById({ _id: cartId })
+    console.log('🚀 ~ file: orderController.ts:36 ~ addNewOrder ~ cart:', cart)
+    if (!cart) {
+      return next(ApiError.notFound("Can't checkout, this user dosen't have a cart "))
+    }
+
+    const { user, products } = cart
 
     const order = new Order({
-      products,
-      userId,
+      user: user,
       purchasedAt: new Date(),
+      orderStatus: orderStatus.pending,
+      products: products,
     })
 
     await order.save()
-    res.json(order)
-  } catch (error: any) {
-    next(ApiError.badRequest(error.message))
-  }
-}
 
-export const reduceProductQtyByOne = async (productId: string, next: NextFunction) => {
-  try {
-    const product = await Product.findById(productId)
+    const deletedCart = await deleteCart(user)
+    res.status(201).json({
+      order,
 
-    if (!product) {
-      next(ApiError.notFound(`Product with ID ${productId} not found.`))
-      return
-    }
-
-    if (product.quantity > 0) {
-      const updatedProduct = await Product.findOneAndUpdate(
-        { _id: productId },
-        { $inc: { quantity: -1 } },
-        { new: true }
-      )
-      console.log('yes worked ')
-      // Respond with the updated product
-      // You might want to send a response to the client here
-    } else {
-      next(ApiError.unauthorized(`Product is out of stock.`))
-    }
+      message:
+        'Success! Your order has been received and is now being processed. Thank you for choosing us!',
+    })
   } catch (error: any) {
     next(ApiError.badRequest(error.message))
   }
@@ -155,7 +75,6 @@ export const acceptOrder = async (req: Request, res: Response, next: NextFunctio
   products.forEach((productId) => {
     // Perform some action for each productId
     const productID = productId.toString()
-    reduceProductQtyByOne(productID, next)
   })
 
   // Update the order status to "accepted"
@@ -185,10 +104,8 @@ export const updateOrderStatus = async (req: Request, res: Response, next: NextF
     let currentStatus = order.orderStatus
 
     if (currentStatus === orderStatus.pending) {
-      return res.status(400).json({ message: 'you should accept order first' })
-    }
-
-    if (currentStatus === orderStatus.accepted) {
+      currentStatus = orderStatus.accepted
+    } else if (currentStatus === orderStatus.accepted) {
       currentStatus = orderStatus.shipped
     } else {
       currentStatus = orderStatus.delivered

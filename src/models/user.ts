@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema(
     activationToken: {
       type: String,
     },
+    forgotPasswordCode: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt timestamps

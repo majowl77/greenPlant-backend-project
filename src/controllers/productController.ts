@@ -1,15 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
-import Category from '../models/category'
 
 import ApiError from '../errors/ApiError'
 import Product from '../models/product'
-import { findAllProducts } from '../services/productService'
 
 export type SortOrder = 1 | -1
 
 export const getAllProducts = async (req: Request, res: Response) => {
-  let pageNumber: number = Number(req.query.pageNumber) || 1
-  console.log('🚀 ~ file: productController.ts:12 ~ getAllProducts ~ pageNumber:', pageNumber)
+  let pageNumber = parseInt(req.query.pageNumber as string) || 1
+
   const initialPerPage: number = Number(req.query.perPage) || 3
   const perPage: number = initialPerPage
   const sortBy = req.query.sortBy?.toString()
@@ -20,6 +18,8 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
     const totalPages = Math.ceil(totalProducts / perPage)
     pageNumber = Math.min(pageNumber, totalPages)
+    const regexSearch = new RegExp(searchText, 'i')
+    const query: Record<string, any> = {}
 
     let sortQuery = {}
     if (sortBy === 'newest') {
@@ -30,37 +30,40 @@ export const getAllProducts = async (req: Request, res: Response) => {
       sortQuery = { price: -1 }
     }
 
-    const regexSearch = new RegExp(searchText, 'i')
-
-    // Construct the query
-    const query: Record<string, any> = {}
-
-    // Add category condition if category is provided and foundCategory is not null
-    // if (category && foundCategory) {
-    //   query.categories = { $in: [foundCategory._id] }
-    // }
     if (category) {
-      query.categories = category // Assuming category is the ID
+      query.categories = category
     }
-    // Add searchText condition if searchText is provided
+
     if (searchText) {
       query.name = regexSearch
     }
+
     const products = await Product.find(query)
       .populate('categories')
       .sort(sortQuery)
       .skip((pageNumber - 1) * perPage)
       .limit(perPage)
-    // .find(category ? { categories: { $in: foundCategory } } : {})
-    // .find({ name: { $regex: searchText, $options: 'i' } })
-    console.log('Total Products:', totalProducts)
-    console.log('Products Returned after Search:', products.length)
-    console.log('Calculated Total Pages:', totalPages)
+
     if (products.length === 0) {
       throw ApiError.notFound('There are no products')
     }
 
     res.status(200).json({ products, totalPages, pageNumber, totalProducts })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error', error: error })
+  }
+}
+
+export const getAllAdminProducts = async (req: Request, res: Response) => {
+  try {
+    const products = await Product.find()
+    res.status(200).json({
+      products,
+    })
+
+    if (products.length === 0) {
+      throw ApiError.notFound('There are no products')
+    }
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error', error: error })
   }

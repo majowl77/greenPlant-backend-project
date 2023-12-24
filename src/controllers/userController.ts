@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import bcrypt from 'bcrypt'
 
 import User from '../models/user'
 import ApiError from '../errors/ApiError'
@@ -24,7 +23,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 }
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params
   const { firstName, lastName } = req.validatedUserUpdate || {}
 
@@ -32,28 +31,31 @@ export const updateUser = async (req: Request, res: Response) => {
   if (!userId) {
     return ApiError.badRequest('Invalid user ID')
   }
-
-  // Find and update the user in one step
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    {
-      $set: {
-        firstName,
-        lastName,
+  try {
+    // Find and update the user in one step
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          firstName,
+          lastName,
+        },
       },
-    },
-    // Save the updated user to the database
-    { new: true }
-  )
-  // Check if the user exists
-  if (!updatedUser) {
-    throw ApiError.notFound('User not found')
-  }
+      // Save the updated user to the database
+      { new: true }
+    )
+    // Check if the user exists
+    if (!updatedUser) {
+      throw ApiError.notFound('User not updated')
+    }
 
-  res.status(200).json({
-    msg: 'User updated successfully',
-    user: updatedUser,
-  })
+    res.status(200).json({
+      msg: 'User updated successfully',
+      user: updatedUser,
+    })
+  } catch (error) {
+    next(ApiError.badRequest('somthing went wrong while updateing profile info '))
+  }
 }
 
 export const grantRoleToUsers = async (req: Request, res: Response) => {

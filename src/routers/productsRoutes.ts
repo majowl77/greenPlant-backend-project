@@ -3,6 +3,7 @@ import express from 'express'
 import {
   createNewProduct,
   deleteProductById,
+  getAllAdminProducts,
   getAllProducts,
   getProductById,
   updateProductById,
@@ -15,6 +16,8 @@ import { validateProduct } from '../validation/validateProduct'
 const router = express.Router()
 
 router.get('/', getAllProducts)
+
+router.get('/admin', getAllAdminProducts)
 
 router.get('/:productId', getProductById)
 

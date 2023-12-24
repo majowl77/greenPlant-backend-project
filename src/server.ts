@@ -2,10 +2,13 @@ import express, { request } from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import cors, { CorsOptions } from 'cors'
+
 import usersRouter from './routers/usersRoutes'
+import passwordRouter from './routers/passwordRoutes'
 import authRouter from './routers/authRoutes'
 import productsRouter from './routers/productsRoutes'
 import ordersRouter from './routers/ordersRoutes'
+import cartRouter from './routers/cartRoutes'
 import categoryRouter from './routers/categoriesRoutes'
 import apiErrorHandler from './middlewares/errorHandler'
 import myLogger from './middlewares/logger'
@@ -42,8 +45,10 @@ app.use(express.json())
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/orders', ordersRouter)
+app.use('/api/cart', cartRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/categories', categoryRouter)
+app.use('/api/password', passwordRouter)
 
 app.use(apiErrorHandler)
 

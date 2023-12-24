@@ -19,10 +19,7 @@ export function validateCategory(req: Request, res: Response, next: NextFunction
 
   try {
     const validatedCategory = schema.parse(req.body)
-    console.log(
-      '🚀 ~ file: validateCategory.ts:22 ~ validateCategory ~ validatedCategory:',
-      validatedCategory
-    )
+
     req.validatedCategory = validatedCategory
     next()
   } catch (error) {

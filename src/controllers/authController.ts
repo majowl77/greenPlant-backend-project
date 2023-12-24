@@ -79,6 +79,8 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         userID: existingUser._id,
         email: existingUser.email,
         role: existingUser.role,
+        firstName: existingUser.firstName,
+        lastName: existingUser.lastName,
       },
       dev.auth.secretToken as string,
       {
@@ -86,6 +88,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         algorithm: 'HS256',
       }
     )
+
     const userWithoutPassword = await User.findOne({ email }).select('-password')
     // At this point, the user is authenticated
 
@@ -100,3 +103,6 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     })
   }
 }
+
+
+
