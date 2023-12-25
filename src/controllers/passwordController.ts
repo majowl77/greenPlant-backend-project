@@ -29,7 +29,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
     await sendForgotPasswordEmail(email, forgotPasswordCode, firstName)
 
     res.status(201).json({
-      msg: 'Check your email to reset your password ',
+      msg: "We've send you a link, Check your email to reset your password ",
     })
   } catch (error) {
     next(ApiError.badRequest('Something went wrong with the forgot password proccess'))
@@ -47,6 +47,7 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
 
   try {
     const user = await User.findOne({ forgotPasswordCode })
+    console.log('🚀 ~ file: passwordController.ts:50 ~ resetPassword ~ user:', user)
     if (!user) {
       return res.status(404).json({ msg: "Password couldn't rest" })
     }

@@ -24,7 +24,7 @@ declare namespace Express {
       iat: number
       exp: number
     }
-    fileName: string
+    fileLocation: string
     validatedProduct?: {
       name?: string | undefined
       description?: string | undefined
@@ -39,7 +39,7 @@ declare namespace Express {
     }
     validatedRestPassword: {
       password: string
-      forgotPasswordCode: string 
+      forgotPasswordCode: string
     }
     ForgotPasswordUser: {
       email: string

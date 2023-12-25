@@ -15,4 +15,8 @@ export const dev = {
     secretToken: process.env.SECRET_TOKEN,
   },
   environment: process.env.NODE_ENV,
+  s3: {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  },
 }

@@ -11,6 +11,7 @@ import {
 import { checkAuth } from '../middlewares/checkAuth'
 import { checkRole } from '../middlewares/checkRole'
 import uploadImage from '../middlewares/uploadImage'
+import uploadImageS3 from '../middlewares/uploadImageToS3'
 import { validateProduct } from '../validation/validateProduct'
 
 const router = express.Router()
@@ -21,13 +22,22 @@ router.get('/admin', getAllAdminProducts)
 
 router.get('/:productId', getProductById)
 
-router.post('/', checkAuth, checkRole('ADMIN'), uploadImage, validateProduct, createNewProduct)
+router.post(
+  '/', 
+checkAuth, 
+checkRole('ADMIN'), 
+// uploadImage, 
+uploadImageS3,
+validateProduct, 
+createNewProduct
+)
 
 router.put(
   '/:productId',
   checkAuth,
   checkRole('ADMIN'),
-  uploadImage,
+  // uploadImage,
+  uploadImageS3,
   validateProduct,
   updateProductById
 )

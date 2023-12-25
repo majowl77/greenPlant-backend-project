@@ -85,7 +85,7 @@ export const getProductById = async (req: Request, res: Response) => {
 export const createNewProduct = async (req: Request, res: Response, next: NextFunction) => {
   const { name, description, quantity, price, categories, variants, sizes } =
     req.validatedProduct || {}
-  const fileName = req.fileName
+  const fileLocation = req.fileLocation
   try {
     if (!name || !description || !price || !categories) {
       next(ApiError.badRequest('Name, Description, price and category are requried'))
@@ -96,7 +96,7 @@ export const createNewProduct = async (req: Request, res: Response, next: NextFu
       name,
       description,
       quantity,
-      image: `public/images/${fileName}`,
+      image: `https://${fileLocation}`,
       price,
       categories,
       variants,
@@ -120,30 +120,34 @@ export const deleteProductById = async (req: Request, res: Response) => {
   res.status(204).send()
 }
 
-export const updateProductById = async (req: Request, res: Response) => {
-  const { name, description, quantity, price, categories, variants, sizes } =
-    req.validatedProduct || {}
-  const productId = req.params.productId
-  const fileName = req.fileName
+export const updateProductById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { name, description, quantity, price, categories, variants, sizes } =
+      req.validatedProduct || {}
+    const productId = req.params.productId
+    const fileName = req.fileLocation
 
-  const newProduct = await Product.findByIdAndUpdate(
-    { _id: productId },
-    {
-      name,
-      description,
-      quantity,
-      image: fileName,
-      price,
-      categories,
-      variants,
-      sizes,
-    },
-    {
-      new: true,
-    }
-  )
+    const newProduct = await Product.findByIdAndUpdate(
+      { _id: productId },
+      {
+        name,
+        description,
+        quantity,
+        image: fileName,
+        price,
+        categories,
+        variants,
+        sizes,
+      },
+      {
+        new: true,
+      }
+    )
 
-  res.json({
-    newProduct,
-  })
+    res.json({
+      newProduct,
+    })
+  } catch (error) {
+    next(ApiError.badRequest('somthing went wrong while updateing product  '))
+  }
 }
