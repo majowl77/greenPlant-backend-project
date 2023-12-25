@@ -10,6 +10,21 @@ export const getUsers = async (req: Request, res: Response) => {
   })
 }
 
+export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params
+
+    const user = await User.findById(userId)
+    if (!user) {
+      next(ApiError.notFound(`User not found with this user ID: ${userId}`))
+    }
+
+    res.status(200).json({ message: 'Single user returned successfully', user })
+  } catch (error) {
+    next(ApiError.badRequest('somthing went wrong while fetching the user '))
+  }
+}
+
 export const deleteUser = async (req: Request, res: Response) => {
   const { userId } = req.params
   try {

@@ -32,10 +32,8 @@ export const getOrderById = async (req: Request, res: Response, next: NextFuncti
 export const addNewOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { cartId } = req.body
-    console.log('🚀 ~ file: orderController.ts:35 ~ addNewOrder ~ req.body:', req.body)
-    console.log('🚀 ~ file: orderController.ts:35 ~ addNewOrder ~ cartId:', cartId)
+
     const cart = await Cart.findById({ _id: cartId })
-    console.log('🚀 ~ file: orderController.ts:36 ~ addNewOrder ~ cart:', cart)
     if (!cart) {
       return next(ApiError.notFound("Can't checkout, this user dosen't have a cart "))
     }
