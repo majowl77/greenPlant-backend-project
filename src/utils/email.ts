@@ -112,22 +112,22 @@ export async function sendForgotPasswordEmail(
 ) {
   const activationLink = `${dev.email.frontEndDomain}/resetPassword/${forgotPasswordCode}`
 
-  const htmlEmailTemplate = `  <section style="font-family:Raleway,sans-serif;display:flex;max-width:2xl;margin:auto;background-color:#ebebeb;padding:126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
-  <div style="display:flex;background-color:#ffffff;padding:35px 0px;justify-content: center;align-items: center;flex-direction: column;padding: 35px 51px;">
+  const htmlEmailTemplate = `  <div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
+  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 0px ;">
 
-  <header style="padding-bottom: 20px; border-radius: 20px ;">
+  <div style="padding-bottom: 20px; border-radius: 20px ;">
       <a href="#">
           <img style="width: 400px; height: 90px; " src="https://majedah-bucket.s3.eu-west-2.amazonaws.com/greenPlantsWhiteLogo-1703597304054-405621210.png" alt="greenPlantLogo">
       </a>
-  </header>
+  </div>
   
-  <main style="margin-top: 8px;">
+  <div style="margin-top: 8px;">
       <h2 style="color: #335e33; font-size: 20px;">Hi ${firstName},</h2>
   
       <p style="font-size: 15px; margin-top: 2px; line-height: loose; color: #335e33; ">
-      We received a request to reset the password for your account. If you did not make <br>
-      request, you can ignore this email. No changes will be made to your account.
-      <p style="font-size: 15px; color: #335e33;"> To reset your password, please click on the following link:
+        Thank you for choosing GreenPlant!  <br>
+        Your account has been created. To activate your account and start shopping, 
+      <p style="font-size: 15px; color: #335e33;"> click the button below..
       </p>
       </p>
       
@@ -149,7 +149,7 @@ export async function sendForgotPasswordEmail(
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;">
-         <a href="${activationLink}" style="color: inherit; text-decoration: none;font-size: 15px;">  Reset Password Link
+         <a href="${activationLink}" style="color: inherit; text-decoration: none;font-size: 15px;">  Activate your account 
          </a> 
       </button>
       
@@ -163,20 +163,21 @@ export async function sendForgotPasswordEmail(
        Thanks,<br>
        GreenPlant Team
       </p>
-  </main>
+  </div>
   
   
-  <footer style="margin-top:8px;display:flex;margin: 0px -1px;font-size:11px;justify-content: center;align-items: center;flex-direction: column;">
+  <div style="margin-top: 8px; display: flex; justify-content: end; align-items: center; flex-direction: column; margin: 0px 160px; font-size: 11px; ">
       <p style="color: #335e33; ">
       This email was sent to <a href="#" style="color: blue-600; " target="_blank">${userEmail}</a>. 
           If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; ">unsubscribe</a> or <a href="#" style="color: blue-600; ">manage your email preferences</a>.
       </p>
   
       <p style="margin-top: 30px; color: #335e33; ">© ${new Date().getFullYear()}  GreenPlant. All Rights Reserved.</p>
-  </footer>
+  </div>
 </div>
 
-  </section>`
+</div>
+`
 
   const mailOptions = {
     from: dev.email.user,
