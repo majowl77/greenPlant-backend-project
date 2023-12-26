@@ -23,7 +23,7 @@ export async function sendActivationEmail(
 ) {
   const activationLink = `${dev.email.domain}/api/auth/activateUser/${activationToken}`
 
-  const htmlEmailTemplate = `  <div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
+  const htmlEmailTemplate = `<div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
   <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 85px ;">
 
   
@@ -112,7 +112,7 @@ export async function sendForgotPasswordEmail(
 ) {
   const activationLink = `${dev.email.frontEndDomain}/resetPassword/${forgotPasswordCode}`
 
-  const htmlEmailTemplate = `   <div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
+  const htmlEmailTemplate = `<div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
   <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 85px ;">
 
   
