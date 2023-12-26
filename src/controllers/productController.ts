@@ -8,7 +8,7 @@ export type SortOrder = 1 | -1
 export const getAllProducts = async (req: Request, res: Response) => {
   let pageNumber = parseInt(req.query.pageNumber as string) || 1
 
-  const initialPerPage: number = Number(req.query.perPage) || 3
+  const initialPerPage: number = Number(req.query.perPage) || 6
   const perPage: number = initialPerPage
   const sortBy = req.query.sortBy?.toString()
   const category = req.query.category?.toString()
