@@ -13,6 +13,11 @@ async function handleUpload(req: Request, res: Response, next: NextFunction) {
     return
   }
 
+  console.log('🚀 ~ file: uploadImageToS3.ts:22 ~ handleUpload ~ accessKeyId:', dev.s3.accessKeyId)
+  console.log(
+    '🚀 ~ file: uploadImageToS3.ts:22 ~ handleUpload ~ secretAccessKey:',
+    dev.s3.secretAccessKey
+  )
   const s3 = new S3Client({
     region: 'eu-west-2',
     credentials: {
@@ -20,6 +25,7 @@ async function handleUpload(req: Request, res: Response, next: NextFunction) {
       secretAccessKey: dev.s3.secretAccessKey as string,
     },
   })
+
   const region = 'eu-west-2'
   const bucketName = 'majedah-bucket'
 
