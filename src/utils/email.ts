@@ -112,8 +112,8 @@ export async function sendForgotPasswordEmail(
 ) {
   const activationLink = `${dev.email.frontEndDomain}/resetPassword/${forgotPasswordCode}`
 
-  const htmlEmailTemplate = `  <section style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; max-width: 2xl; margin: auto; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
-  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 0px ;">
+  const htmlEmailTemplate = `  <section style="font-family:Raleway,sans-serif;display:flex;max-width:2xl;margin:auto;background-color:#ebebeb;padding:126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
+  <div style="display:flex;background-color:#ffffff;padding:35px 0px;justify-content: center;align-items: center;flex-direction: column;padding: 35px 51px;">
 
   <header style="padding-bottom: 20px; border-radius: 20px ;">
       <a href="#">
@@ -166,7 +166,7 @@ export async function sendForgotPasswordEmail(
   </main>
   
   
-  <footer style="margin-top: 8px; display: flex; justify-content: end; align-items: center; flex-direction: column; margin: 0px 140px; font-size: 11px; ">
+  <footer style="margin-top:8px;display:flex;margin: 0px -1px;font-size:11px;justify-content: center;align-items: center;flex-direction: column;">
       <p style="color: #335e33; ">
       This email was sent to <a href="#" style="color: blue-600; " target="_blank">${userEmail}</a>. 
           If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; ">unsubscribe</a> or <a href="#" style="color: blue-600; ">manage your email preferences</a>.
