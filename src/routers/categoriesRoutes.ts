@@ -22,11 +22,11 @@ router.get('/', getAllcategories)
 router.get('/:categoryId', getCategory)
 
 // CREATE category
-router.post('/', validateCategory, createCategory)
+router.post('/', checkAuth, checkRole('ADMIN'), validateCategory, createCategory)
 
 // DELETE category by id
 router.delete('/:categoryId', checkAuth, checkRole('ADMIN'), deleteCategory)
 
-router.put('/:categoryId', updateCategory)
+router.put('/:categoryId', checkAuth, checkRole('ADMIN'), validateCategory, updateCategory)
 
 export default router

@@ -5,25 +5,35 @@ import { orderStatus } from '../constants'
 
 // Orders: id, productId, userId, purchasedAt
 
-const orderSchema = new mongoose.Schema({
-  products: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Product',
+const orderSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    purchasedAt: {
+      type: Date,
+      required: true,
+    },
+    orderStatus: {
+      type: String,
+      enum: orderStatus, //order statuses
+      default: 'pending',
+    },
+    products: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  purchasedAt: {
-    type: Date,
-    required: true,
-  },
-  orderStatus: {
-    type: String,
-    enum: orderStatus, //order statuses
-    default: 'pending',
-  },
-})
+  { timestamps: true }
+)
 
 export default mongoose.model<OrderDocument>('Order', orderSchema)

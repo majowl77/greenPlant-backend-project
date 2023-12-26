@@ -3,27 +3,50 @@ import express from 'express'
 import {
   createNewProduct,
   deleteProductById,
-  filterProductByVariantstoSize,
+  getAllAdminProducts,
   getAllProducts,
   getProductById,
   updateProductById,
 } from '../controllers/productController'
 import { checkAuth } from '../middlewares/checkAuth'
 import { checkRole } from '../middlewares/checkRole'
+import uploadImage from '../middlewares/uploadImage'
+import uploadImageS3 from '../middlewares/uploadImageToS3'
 import { validateProduct } from '../validation/validateProduct'
 
 const router = express.Router()
 
-router.get('/', filterProductByVariantstoSize, getAllProducts)
+router.get('/', getAllProducts)
+
+router.get('/admin', getAllAdminProducts)
 
 router.get('/:productId', getProductById)
 
-router.post('/', checkAuth, checkRole('ADMIN'), validateProduct, createNewProduct)
+router.post(
+  '/', 
+checkAuth, 
+checkRole('ADMIN'), 
+// uploadImage, 
+uploadImageS3,
+validateProduct, 
+createNewProduct
+)
 
-router.put('/:productId', checkAuth, checkRole('ADMIN'), updateProductById)
+router.put(
+  '/:productId',
+  checkAuth,
+  checkRole('ADMIN'),
+  // uploadImage,
+  uploadImageS3,
+  validateProduct,
+  updateProductById
+)
 
-router.delete('/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
-//Implement a route to handle GET requests with query parameters for filtering items
-//or products based on specific criteria (e.g., by category, price range).
+router.delete('/deleteProduct/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
+
+// i need this later to work on s3 and test it
+// router.post('/upload', uploadImage, (req: Request, res: Response) => {
+//   res.json({ msg: 'product is created ' })
+// })
 
 export default router

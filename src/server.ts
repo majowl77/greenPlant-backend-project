@@ -1,11 +1,14 @@
-import express from 'express'
+import express, { request } from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import cors, { CorsOptions } from 'cors'
+
 import usersRouter from './routers/usersRoutes'
+import passwordRouter from './routers/passwordRoutes'
 import authRouter from './routers/authRoutes'
 import productsRouter from './routers/productsRoutes'
 import ordersRouter from './routers/ordersRoutes'
+import cartRouter from './routers/cartRoutes'
 import categoryRouter from './routers/categoriesRoutes'
 import apiErrorHandler from './middlewares/errorHandler'
 import myLogger from './middlewares/logger'
@@ -17,10 +20,14 @@ const PORT = dev.app.port || 8080
 const URL = dev.app.db as string
 const environment = dev.environment || 'development'
 
-const whitelist = ['myOwnDomainFrontend.com']
+const whitelist = [
+  'https://green-plants-cxqkrflij-majowl77s-projects.vercel.app',
+  'insomnia://',
+  '*',
+]
+console.log('🚀 ~ file: server.ts:28 ~ whitelist:', whitelist)
 if (environment === 'development') {
   whitelist.push('http://localhost:3000')
-  console.log('🚀 ~ file: server.ts:22 ~ whitelist:', whitelist)
 }
 
 const corsOptions: CorsOptions = {
@@ -33,26 +40,21 @@ const corsOptions: CorsOptions = {
   },
 }
 
-app.use(cors(corsOptions))
-
 if (environment === 'development') {
   app.use(myLogger)
 }
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/orders', ordersRouter)
+app.use('/api/cart', cartRouter)
 app.use('/api/products', productsRouter)
 app.use('/api/categories', categoryRouter)
+app.use('/api/password', passwordRouter)
 
 app.use(apiErrorHandler)
-
-app.use('/', (req, res) => {
-  res.json({
-    msg: ' hello, majedah is here',
-  })
-})
 
 mongoose
   .connect(URL)

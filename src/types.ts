@@ -19,6 +19,7 @@ export type UserDocument = Document & {
   role: string
   isActive: Boolean
   activationToken: string | undefined
+  forgotPasswordCode: string | undefined
 }
 
 export type CategoryDocument = Document & {
@@ -47,6 +48,9 @@ export type DecodedUser = {
 export type Role = 'USER' | 'ADMIN'
 
 export type CartDocument = Document & {
-  name: string
-  products: string[]
+  user: string
+  products: {
+    product: mongoose.Schema.Types.ObjectId
+    quantity: number
+  }[]
 }

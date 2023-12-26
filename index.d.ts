@@ -24,5 +24,25 @@ declare namespace Express {
       iat: number
       exp: number
     }
+    fileLocation: string
+    validatedProduct?: {
+      name?: string | undefined
+      description?: string | undefined
+      quantity?: number | undefined
+      price?: number | undefined
+      categories?: string[] | undefined
+      variants?: string[] | undefined
+      sizes?: string[] | undefined
+    }
+    validatedCategory: {
+      name: string
+    }
+    validatedRestPassword: {
+      password: string
+      forgotPasswordCode: string
+    }
+    ForgotPasswordUser: {
+      email: string
+    }
   }
 }

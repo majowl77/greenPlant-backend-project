@@ -33,11 +33,11 @@ export const getCategory = async (req: Request, res: Response, next: NextFunctio
 //POST CRUD
 export const createCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const name = req.body.name
-    // Check if name is missing
-    if (!name) {
-      next(ApiError.badRequest('Name is required'))
-      return
+    const { name } = req.validatedCategory
+
+    const existingCategory = await Category.findOne({ name })
+    if (existingCategory) {
+      return next(ApiError.conflict('Category is already exist '))
     }
 
     const category = new Category({
@@ -73,17 +73,17 @@ export const deleteCategory = async (req: Request, res: Response, next: NextFunc
 //PUT CRUD
 export const updateCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const UpdateName = req.body.name
+    const { name } = req.validatedCategory
     const { categoryId } = req.params
-    const UpdateCategory = await Category.findByIdAndUpdate(
-      categoryId,
-      { name: UpdateName },
+    const updateCategory = await Category.findByIdAndUpdate(
+      { _id: categoryId },
+      { name: name },
       {
         new: true,
       }
     )
     res.status(200).json({
-      category: UpdateCategory,
+      updatedCategory: updateCategory,
     })
   } catch (error) {
     next(ApiError.badRequest('Something went wrong while updating the category.'))

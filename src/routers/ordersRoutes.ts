@@ -1,6 +1,8 @@
 import express from 'express'
 
 import {
+  acceptOrder,
+  addNewOrder,
   deleteOrder,
   getOrderById,
   getOrders,
@@ -11,12 +13,17 @@ import { checkRole } from '../middlewares/checkRole'
 
 const router = express.Router()
 
-router.get('/', getOrders)
+// ---- Admin routes ---- Private routes------
+router.get('/', checkAuth, checkRole('ADMIN'), getOrders)
+
+router.put('/admin/orders/updatestatus/:orderId', checkAuth, checkRole('ADMIN'), updateOrderStatus)
+
+router.put('/admin/orders/:orderId', checkAuth, checkRole('ADMIN'), acceptOrder)
+
+router.delete('/:orderId', checkAuth, checkRole('ADMIN'), deleteOrder)
 
 router.get('/:orderId', getOrderById)
 
-router.put('/:orderId', updateOrderStatus)
-
-router.delete('/:orderId', checkAuth, checkRole('ADMIN'), deleteOrder)
+router.post('/createNewOrder', addNewOrder)
 
 export default router
