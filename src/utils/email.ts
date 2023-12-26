@@ -24,16 +24,16 @@ export async function sendActivationEmail(
   const activationLink = `${dev.email.domain}/api/auth/activateUser/${activationToken}`
 
   const htmlEmailTemplate = `  <div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
-  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 0px ;">
+  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 85px ;">
 
+  
+  <div style="margin-top: 8px;">
   <div style="padding-bottom: 20px; border-radius: 20px ;">
       <a href="#">
           <img style="width: 400px; height: 90px; " src="https://majedah-bucket.s3.eu-west-2.amazonaws.com/greenPlantsWhiteLogo-1703597304054-405621210.png" alt="greenPlantLogo">
       </a>
   </div>
-  
-  <div style="margin-top: 8px;">
-      <h2 style="color: #335e33; font-size: 20px;">Hi ${firstName},</h2>
+  <h2 style="color: #335e33; font-size: 20px;">Hi ${firstName},</h2>
   
       <p style="font-size: 15px; margin-top: 2px; line-height: loose; color: #335e33; ">
         Thank you for choosing GreenPlant!  <br>
@@ -74,17 +74,18 @@ export async function sendActivationEmail(
        Thanks,<br>
        GreenPlant Team
       </p>
+
+      <div style="margin-top: 8px; margin: 0px 0px; font-size: 11px; ">
+          <p style="color: #335e33; ">
+          This email was sent to <a href="#" style="color: blue-600; " target="_blank">${userEmail}</a>. 
+              If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; ">unsubscribe</a> or <a href="#" style="color: blue-600; ">manage your email preferences</a>.
+          </p>
+      
+          <p style="margin-top: 30px; color: #335e33; ">© ${new Date().getFullYear()}  GreenPlant. All Rights Reserved.</p>
+      </div>
   </div>
   
   
-  <div style="margin-top: 8px; display: flex; justify-content: end; align-items: center; flex-direction: column; margin: 0px 160px; font-size: 11px; ">
-      <p style="color: #335e33; ">
-      This email was sent to <a href="#" style="color: blue-600; " target="_blank">${userEmail}</a>. 
-          If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; ">unsubscribe</a> or <a href="#" style="color: blue-600; ">manage your email preferences</a>.
-      </p>
-  
-      <p style="margin-top: 30px; color: #335e33; ">© ${new Date().getFullYear()}  GreenPlant. All Rights Reserved.</p>
-  </div>
 </div>
 
 </div>`
@@ -111,21 +112,21 @@ export async function sendForgotPasswordEmail(
 ) {
   const activationLink = `${dev.email.frontEndDomain}/resetPassword/${forgotPasswordCode}`
 
-  const htmlEmailTemplate = `  <section style="font-family:Raleway,sans-serif; display:flex; flex-direction:column; margin:auto; background-color:#ebebeb; padding:126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
-  <div style="display:flex;background-color:#ffffff;padding:35px 0px;justify-content: center;align-items: center;flex-direction: column;padding: 35px 51px;">
+  const htmlEmailTemplate = `   <div style="font-family:Raleway,sans-serif; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ebebeb; padding: 126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
+  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #ffffff; padding: 35px 85px ;">
 
-  <header style="padding-bottom: 20px; border-radius: 20px ;">
+  
+  <div style="margin-top: 8px;">
+  <div style="padding-bottom: 20px; border-radius: 20px ;">
       <a href="#">
           <img style="width: 400px; height: 90px; " src="https://majedah-bucket.s3.eu-west-2.amazonaws.com/greenPlantsWhiteLogo-1703597304054-405621210.png" alt="greenPlantLogo">
       </a>
-  </header>
-  
-  <main style="margin-top: 8px;">
-      <h2 style="color: #335e33; font-size: 20px;">Hi ${firstName},</h2>
+  </div>
+  <h2 style="color: #335e33; font-size: 20px;">Hi ${firstName},</h2>
   
       <p style="font-size: 15px; margin-top: 2px; line-height: loose; color: #335e33; ">
-      We received a request to reset the password for your account. If you did not make <br>
-      request, you can ignore this email. No changes will be made to your account.
+        We received a request to reset the password for your account. If you did not make <br>
+        request, you can ignore this email. No changes will be made to your account. 
       <p style="font-size: 15px; color: #335e33;"> To reset your password, please click on the following link:
       </p>
       </p>
@@ -154,28 +155,29 @@ export async function sendForgotPasswordEmail(
       
 
       <p style="font-size: 14px;margin-top: 49px; color: #335e33; ">
-      If you have any questions or need further assistance, please contact our <br>
-      support team at <a href="mailto:greenowls2023@gmail.com ">greenowls2023@gmail.com </a>
+        If you have any questions or need further assistance, please contact our <br>
+        support team at <a href="mailto:greenowls2023@gmail.com ">greenowls2023@gmail.com </a>
       </p>
 
       <p style="font-size: 14px; margin-top: 30px; color: #335e33; ">
        Thanks,<br>
        GreenPlant Team
       </p>
-  </main>
+
+      <div style="margin-top: 8px; margin: 0px 0px; font-size: 11px; ">
+          <p style="color: #335e33; ">
+          This email was sent to <a href="#" style="color: blue-600; " target="_blank">${userEmail}</a>. 
+              If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; ">unsubscribe</a> or <a href="#" style="color: blue-600; ">manage your email preferences</a>.
+          </p>
+      
+          <p style="margin-top: 30px; color: #335e33; ">© ${new Date().getFullYear()}  GreenPlant. All Rights Reserved.</p>
+      </div>
+  </div>
   
   
-  <footer style="margin-top:8px;display:flex;margin: 0px -1px;font-size:11px;justify-content: center;align-items: center;flex-direction: column;">
-      <p style="color: #335e33; ">
-      This email was sent to <a href="#" style="color: blue-600; " target="_blank">${userEmail}</a>. 
-          If you'd rather not receive this kind of email, you can <a href="#" style="color: blue-600; ">unsubscribe</a> or <a href="#" style="color: blue-600; ">manage your email preferences</a>.
-      </p>
-  
-      <p style="margin-top: 30px; color: #335e33; ">© ${new Date().getFullYear()}  GreenPlant. All Rights Reserved.</p>
-  </footer>
 </div>
 
-  </section>`
+</div>`
 
   const mailOptions = {
     from: dev.email.user,
