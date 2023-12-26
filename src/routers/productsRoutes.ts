@@ -35,6 +35,4 @@ router.put(
 
 router.delete('/deleteProduct/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
 
-// i need this later to work on s3 and test it
-
 export default router
