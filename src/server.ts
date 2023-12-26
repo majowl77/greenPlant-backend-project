@@ -20,7 +20,11 @@ const PORT = dev.app.port || 8080
 const URL = dev.app.db as string
 const environment = dev.environment || 'development'
 
-const whitelist = ['myOwnDomainFrontend.com', 'insomnia://', '*']
+const whitelist = [
+  'https://green-plants-cxqkrflij-majowl77s-projects.vercel.app',
+  'insomnia://',
+  '*',
+]
 if (environment === 'development') {
   whitelist.push('http://localhost:3000')
 }
@@ -51,12 +55,6 @@ app.use('/api/categories', categoryRouter)
 app.use('/api/password', passwordRouter)
 
 app.use(apiErrorHandler)
-
-// app.use('/', (req, res) => {
-//   res.json({
-//     msg: ' hello, majedah is here',
-//   })
-// })
 
 mongoose
   .connect(URL)
