@@ -40,11 +40,10 @@ const corsOptions: CorsOptions = {
   },
 }
 
-app.use(cors())
-
 if (environment === 'development') {
   app.use(myLogger)
 }
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use('/api/users', usersRouter)
