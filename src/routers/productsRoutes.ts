@@ -22,21 +22,12 @@ router.get('/admin', getAllAdminProducts)
 
 router.get('/:productId', getProductById)
 
-router.post(
-  '/', 
-checkAuth, 
-checkRole('ADMIN'), 
-// uploadImage, 
-uploadImageS3,
-validateProduct, 
-createNewProduct
-)
+router.post('/', checkAuth, checkRole('ADMIN'), uploadImageS3, validateProduct, createNewProduct)
 
 router.put(
   '/:productId',
   checkAuth,
   checkRole('ADMIN'),
-  // uploadImage,
   uploadImageS3,
   validateProduct,
   updateProductById
@@ -45,8 +36,5 @@ router.put(
 router.delete('/deleteProduct/:productId', checkAuth, checkRole('ADMIN'), deleteProductById)
 
 // i need this later to work on s3 and test it
-// router.post('/upload', uploadImage, (req: Request, res: Response) => {
-//   res.json({ msg: 'product is created ' })
-// })
 
 export default router

@@ -10867,3 +10867,7 @@ Method: GET, Path: /api/products, Date: 12/26/2023, Time: 12:59:13 PM
 Method: GET, Path: /api/categories, Date: 12/26/2023, Time: 12:59:13 PM
 Method: GET, Path: /api/products, Date: 12/26/2023, Time: 12:59:13 PM
 Method: GET, Path: /api/cart/getUserCartItems, Date: 12/26/2023, Time: 12:59:13 PM
+Method: GET, Path: /api/products/admin, Date: 12/26/2023, Time: 1:50:57 PM
+Method: GET, Path: /api/products/admin, Date: 12/26/2023, Time: 1:50:57 PM
+Method: GET, Path: /api/orders, Date: 12/26/2023, Time: 1:50:58 PM
+Method: GET, Path: /api/orders, Date: 12/26/2023, Time: 1:50:59 PM

@@ -26,6 +26,7 @@ const whitelist = [
   'insomnia://',
   '*',
 ]
+
 console.log('🚀 ~ file: server.ts:28 ~ whitelist:', whitelist)
 if (environment === 'development') {
   whitelist.push('http://localhost:3000')

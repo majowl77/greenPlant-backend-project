@@ -48,7 +48,8 @@ async function handleUpload(req: Request, res: Response, next: NextFunction) {
     }
     console.log('File uploaded successfully!', upload)
   } catch (error) {
-    next(ApiError.badRequest('Image upload faild!!, somthing went wrong with s3'))
+    console.log('🚀 ~ file: uploadImageToS3.ts:52 ~ handleUpload ~ error:', error)
+    next(ApiError.badRequest('Image upload faild!!, somthing went wrong with s3' + error))
   }
 }
 
