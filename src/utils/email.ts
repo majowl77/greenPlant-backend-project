@@ -111,7 +111,7 @@ export async function sendForgotPasswordEmail(
 ) {
   const activationLink = `${dev.email.frontEndDomain}/resetPassword/${forgotPasswordCode}`
 
-  const htmlEmailTemplate = `  <section style="font-family:Raleway,sans-serif; display:flex; max-width:2xl; margin:auto;background-color:#ebebeb;padding:126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
+  const htmlEmailTemplate = `  <section style="font-family:Raleway,sans-serif; display:flex; flex-direction:column margin:auto; background-color:#ebebeb; padding:126px 261px; background-image: url(https://i.ebayimg.com/images/g/2-4AAOSwTSpeVjmK/s-l1600.jpg);">
   <div style="display:flex;background-color:#ffffff;padding:35px 0px;justify-content: center;align-items: center;flex-direction: column;padding: 35px 51px;">
 
   <header style="padding-bottom: 20px; border-radius: 20px ;">
