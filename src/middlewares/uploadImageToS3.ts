@@ -13,11 +13,6 @@ async function handleUpload(req: Request, res: Response, next: NextFunction) {
     return
   }
 
-  console.log('🚀 ~ file: uploadImageToS3.ts:22 ~ handleUpload ~ accessKeyId:', dev.s3.accessKeyId)
-  console.log(
-    '🚀 ~ file: uploadImageToS3.ts:22 ~ handleUpload ~ secretAccessKey:',
-    dev.s3.secretAccessKey
-  )
   const s3 = new S3Client({
     region: 'eu-west-2',
     credentials: {
@@ -54,7 +49,6 @@ async function handleUpload(req: Request, res: Response, next: NextFunction) {
     }
     console.log('File uploaded successfully!', upload)
   } catch (error) {
-    console.log('🚀 ~ file: uploadImageToS3.ts:52 ~ handleUpload ~ error:', error)
     next(ApiError.badRequest('Image upload faild!!, somthing went wrong with s3' + error))
   }
 }

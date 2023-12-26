@@ -1,4 +1,4 @@
-import express, { request } from 'express'
+import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import cors, { CorsOptions } from 'cors'
@@ -26,7 +26,6 @@ const whitelist = [
   'insomnia://',
   '*',
 ]
-
 console.log('🚀 ~ file: server.ts:28 ~ whitelist:', whitelist)
 if (environment === 'development') {
   whitelist.push('http://localhost:3000')
@@ -57,6 +56,12 @@ app.use('/api/categories', categoryRouter)
 app.use('/api/password', passwordRouter)
 
 app.use(apiErrorHandler)
+
+app.use((req: Request, res: Response) => {
+  res.json({
+    msg: 'hello, World',
+  })
+})
 
 mongoose
   .connect(URL)
