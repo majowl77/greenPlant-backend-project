@@ -89,6 +89,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       }
     )
 
+    
     const userWithoutPassword = await User.findOne({ email }).select('-password')
     // At this point, the user is authenticated
 
