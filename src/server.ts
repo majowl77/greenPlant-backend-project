@@ -22,6 +22,7 @@ const environment = dev.environment || 'development'
 
 const whitelist = [
   'https://green-plants-cxqkrflij-majowl77s-projects.vercel.app',
+  'https://green-plants-iota.vercel.app',
   'insomnia://',
   '*',
 ]
