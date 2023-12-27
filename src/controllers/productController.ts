@@ -125,7 +125,7 @@ export const updateProductById = async (req: Request, res: Response, next: NextF
     const { name, description, quantity, price, categories, variants, sizes } =
       req.validatedProduct || {}
     const productId = req.params.productId
-    const fileName = req.fileLocation
+    const fileLocation = req.fileLocation
 
     const newProduct = await Product.findByIdAndUpdate(
       { _id: productId },
@@ -133,7 +133,7 @@ export const updateProductById = async (req: Request, res: Response, next: NextF
         name,
         description,
         quantity,
-        image: fileName,
+        image: `https://${fileLocation}`,
         price,
         categories,
         variants,
