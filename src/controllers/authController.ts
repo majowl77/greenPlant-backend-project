@@ -10,8 +10,9 @@ import { dev } from '../config'
 export const activateUser = async (req: Request, res: Response, next: NextFunction) => {
   const { activationToken } = req.params
   const user = await User.findOne({ activationToken })
+  console.log('🚀 ~ activateUser ~ user:', user)
 
-  if (!user) {
+  if (user === null) {
     return next(ApiError.badRequest('Invalid activation token'))
   }
 
@@ -89,7 +90,6 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       }
     )
 
-    
     const userWithoutPassword = await User.findOne({ email }).select('-password')
     // At this point, the user is authenticated
 
@@ -104,6 +104,3 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     })
   }
 }
-
-
-

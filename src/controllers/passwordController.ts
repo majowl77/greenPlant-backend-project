@@ -38,16 +38,12 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
 
 export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
   const { password, forgotPasswordCode } = req.validatedRestPassword
-  console.log('🚀 ~ file: passwordController.ts:41 ~ resetPassword ~ newPassword:', password)
-  console.log(
-    '🚀 ~ file: passwordController.ts:42 ~ resetPassword ~ forgotPasswordCode:',
-    forgotPasswordCode
-  )
+
   const hashedPassword = await bcrypt.hash(password, 10)
 
   try {
     const user = await User.findOne({ forgotPasswordCode })
-    console.log('🚀 ~ file: passwordController.ts:50 ~ resetPassword ~ user:', user)
+
     if (!user) {
       return res.status(404).json({ msg: "Password couldn't rest" })
     }
